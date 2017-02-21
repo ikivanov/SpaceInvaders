@@ -1,0 +1,25 @@
+<html>
+	<body>
+		<canvas id="game-arena" width="600" height="600"></canvas>
+	</body>
+
+	<script type="text/javascript" src="requestAnimationFramePollyfill.js"></script>
+	<script type="text/javascript" src="fps-label.js"></script>
+	<script type="text/javascript" src="utils.js"></script>
+	<script type="text/javascript" src="spacecraft.js"></script>
+	<script type="text/javascript" src="shield.js"></script>
+	<script type="text/javascript" src="missile.js"></script>
+	<script type="text/javascript" src="game.js"></script>
+
+	<script type="text/javascript">
+		window.onload = function() {
+			window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
+			let canvas = document.getElementById("game-arena"),
+				game = new SpaceInvadersNamespace.SpaceInvaders({ canvas: canvas });
+
+
+			SpaceInvadersNamespace.GameObject = game;
+			game.run();
+		}
+	</script>
+</html>
