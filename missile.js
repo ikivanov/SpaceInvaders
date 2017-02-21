@@ -12,6 +12,7 @@
 		that.context = config.context;
 		that.type = config.type;
 		that.position = config.position;
+		that.height = MISSILE_HEIGHT;
 		that.image = utils.getImage(MISSILE_IMAGE);
 		that.speed = SPEED_Y;
 
@@ -22,24 +23,11 @@
 
 	Missile.prototype = {
 		update: function() {
-			let that = this,
-				outOfScreen = false;
+			let that = this;
 
 			that.position.y += that.speed;
 
-			if (that.speed < 0) {
-				if (that.position.y + MISSILE_HEIGHT < 0) {
-					outOfScreen = true;
-				}
-			} else {
-				if (that.position.y > 600) {
-					outOfScreen = true;
-				}
-			}
-
-			if (outOfScreen) {
-				SpaceInvadersNamespace.GameObject.onMissileOutOfScreen(that);
-			}
+			SpaceInvadersNamespace.GameObject.processMissileCollisionsIfNeeded(that);
 		},
 
 		render: function() {

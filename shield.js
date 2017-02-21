@@ -13,13 +13,21 @@
 		that.shieldBlockColsCount = config.shieldBlockColsCount || 10;
 		//that.image = utils.getImage(SHIELD_BLOCK_IMAGE);
 
+		that.width = that.shieldBlockColsCount * SHIELD_BLOCK_LENGTH;
+		that.height = that.shieldBlockRowsCount * SHIELD_BLOCK_LENGTH;
+
 		that.shieldBlocks = [];
 
 		for (let i = 0; i < that.shieldBlockRowsCount; i++) {
 			let row = [];
 
 			for (let j = 0; j < that.shieldBlockColsCount; j++) {
-				row.push({ isDestroyed: false })
+				row.push({
+					x: that.position.x + j * SHIELD_BLOCK_LENGTH,
+					y: that.position.y + i * SHIELD_BLOCK_LENGTH,
+					width: SHIELD_BLOCK_LENGTH,
+					isDestroyed: false
+				});
 			}
 
 			that.shieldBlocks.push(row);

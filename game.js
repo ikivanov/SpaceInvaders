@@ -6,6 +6,7 @@
 		FPS_LABEL_POSITION = { x: 545, y: 25 },
 		SPACECRAFT_POSITION = { x: 275, y: 540 },
 		BACKGROUND_IMAGE = "images/space.png",
+		HEIGHT = 600,
 		LIVES = 3;
 
 	let utils = SpaceInvadersNamespace.Utils;
@@ -94,6 +95,66 @@
 
 			if (index !== -1) {
 				that.missiles.splice(index, 1);
+			}
+		},
+
+		processMissileCollisionsIfNeeded: function(missile) {
+			let that = this,
+				missileOutOfScreen = false;
+
+			if (missile.speed < 0) {
+				if (missile.position.y + missile.height < 0) {
+					missileOutOfScreen = true;
+				}
+			} else {
+				if (that.position.y > HEIGHT) {
+					missileOutOfScreen = true;
+				}
+			}
+
+			if (missileOutOfScreen) {
+				that.onMissileOutOfScreen(missile);
+				return;
+			}
+
+			let targetedShield = null;
+			for (let i = 0; i < that.shields.length; i++) {
+				let shield = that.shields[i];
+
+				if (missile.position.x >= shield.position.x &&
+					missile.position.x <= shield.position.x + shield.width &&
+					missile.position.y >= shield.position.y &&
+					missile.position.y <= shield.position.y + shield.height) {
+					targetedShield = shield;
+				}
+			}
+
+			if (!targetedShield) {
+				return;
+			}
+
+			let shieldBlockAboutDestructionFound = false;
+			for (let j = 0; j < targetedShield.shieldBlocks.length; j++) {
+				let row = targetedShield.shieldBlocks[j];
+
+				for (let k = 0; k < row.length; k++) {
+					let shieldBlock = row[k];
+
+					if (!shieldBlock.isDestroyed &&
+							missile.position.x >= shieldBlock.x &&
+							missile.position.x <= shieldBlock.x + shieldBlock.width &&
+							missile.position.y >= shieldBlock.y &&
+							missile.position.y <= shieldBlock.y + shieldBlock.width) {
+						shieldBlock.isDestroyed = true;
+						shieldBlockAboutDestructionFound = true;
+						that.onMissileOutOfScreen(missile);
+						break;
+					}
+				}
+
+				if (shieldBlockAboutDestructionFound) {
+					break;
+				}
 			}
 		},
 
