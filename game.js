@@ -7,7 +7,10 @@
 		SPACECRAFT_POSITION = { x: 275, y: 540 },
 		BACKGROUND_IMAGE = "images/space.png",
 		HEIGHT = 600,
-		LIVES = 3;
+		LIVES = 3,
+		INVADER_FORMATION_TOP_OFFSET = 50,
+		INVADER_FORMATION_LEFT_OFFSET = 50;
+
 
 	let utils = SpaceInvadersNamespace.Utils;
 
@@ -42,6 +45,7 @@
 		];
 
 		that.missiles = [];
+		that.invaderFormation = new SpaceInvadersNamespace.InvaderFormation({ context: that.context, position: { x: INVADER_FORMATION_LEFT_OFFSET, y: INVADER_FORMATION_TOP_OFFSET } });
 
 		that.keyboard = {
 			keys : {
@@ -164,6 +168,7 @@
 			that.fpsLabel.update();
 
 			that.spacecraft.update(that.keyboard);
+			that.invaderFormation.update();
 
 			for (let i = 0; i < that.missiles.length; i++) {
 				that.missiles[i].update();
@@ -179,6 +184,8 @@
 			that._renderBackground();
 			that._renderStatistics();
 			that.fpsLabel.render();
+
+			that.invaderFormation.render();
 
 			for (let i = 0; i < that.shields.length; i++) {
 				that.shields[i].render();
