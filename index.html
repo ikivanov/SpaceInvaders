@@ -3,15 +3,21 @@
 		<canvas id="game-arena" width="600" height="600"></canvas>
 	</body>
 
-	<script type="text/javascript" src="requestAnimationFramePollyfill.js"></script>
-	<script type="text/javascript" src="fps-label.js"></script>
-	<script type="text/javascript" src="utils.js"></script>
-	<script type="text/javascript" src="invader.js"></script>
-	<script type="text/javascript" src="invader-formation.js"></script>
-	<script type="text/javascript" src="spacecraft.js"></script>
-	<script type="text/javascript" src="shield.js"></script>
-	<script type="text/javascript" src="missile.js"></script>
-	<script type="text/javascript" src="game.js"></script>
+	<script type="text/javascript" src="framework/requestAnimationFrame-pollyfill.js"></script>
+	<script type="text/javascript" src="framework/utils.js"></script>
+	<script type="text/javascript" src="framework/game.js"></script>
+	<script type="text/javascript" src="framework/sprite.js"></script>
+	<script type="text/javascript" src="framework/fps-counter.js"></script>
+
+	<script type="text/javascript" src="sprites/background.js"></script>
+	<script type="text/javascript" src="sprites/statistics.js"></script>
+	<script type="text/javascript" src="sprites/invader.js"></script>
+	<script type="text/javascript" src="sprites/invader-formation.js"></script>
+	<script type="text/javascript" src="sprites/spacecraft.js"></script>
+	<script type="text/javascript" src="sprites/shield.js"></script>
+	<script type="text/javascript" src="sprites/missile.js"></script>
+
+	<script type="text/javascript" src="space-invaders.js"></script>
 
 	<script type="text/javascript">
 		window.onload = function() {
@@ -19,8 +25,6 @@
 			let canvas = document.getElementById("game-arena"),
 				game = new SpaceInvadersNamespace.SpaceInvaders({ canvas: canvas });
 
-
-			SpaceInvadersNamespace.GameObject = game;
 			game.run();
 		}
 	</script>
