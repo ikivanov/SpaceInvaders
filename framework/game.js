@@ -10,29 +10,37 @@
 		that.width = that.canvas.width;
 		that.height = that.canvas.height;
 
-		that.sprites = [];
-
-		that.isPaused = false;
-		that.isGameOver = false;
-
-		that.level = 1;
-		that.scores = 0;
-
-		that.keyboard = {
-			keys : {
-				"ArrowLeft": false,
-				"ArrowRight": false,
-				"Space": false
-			}
-		};
-
 		document.addEventListener("keydown", that._onKeyDown.bind(that));
 		document.addEventListener("keyup", that._onKeyUp.bind(that));
 	}
 
 	Game.prototype = {
+		init: function() {
+			let that = this;
+
+			that.sprites = [];
+
+			that.isPaused = false;
+			that.isGameOver = false;
+
+			that.level = 1;
+			that.scores = 0;
+
+			that.keyboard = {
+				keys : {
+					"ArrowLeft": false,
+					"ArrowRight": false,
+					"Space": false
+				}
+			};
+		},
+
 		run: function() {
 			let that = this;
+
+			if (that.isPaused || that.isGameOver) {
+				return;
+			}
 
 			requestAnimationFrame(that.run.bind(that));
 
@@ -45,7 +53,7 @@
 			var that = this;
 
 			if (that.isGameOver) {
-				that._init();
+				that.init();
 			}
 
 			that.isGameOver = that.isPaused = false;
@@ -55,6 +63,12 @@
 
 		pause: function() {
 			this.isPaused = true;
+		},
+
+		gameOver: function() {
+			let that = this;
+
+			that.isGameOver = true;
 		},
 
 		detectCollisions: function() {

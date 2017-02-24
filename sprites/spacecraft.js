@@ -55,6 +55,16 @@
 		}
 	}
 
+	Spacecraft.prototype.onCollidedWith = function(sprite) {
+		let that = this,
+			type = sprite.__type;
+
+		if (type === "Missile" || type === "Invader") {
+			that.game.removeChild(that);
+			that.game.gameOver();
+		}
+	}
+
 	Spacecraft.prototype._canFire = function() {
 		let that = this,
 			now = new Date();

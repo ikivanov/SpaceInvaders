@@ -24,6 +24,14 @@
 
 		SpaceInvadersNamespace.Game.call(that, config);
 
+		that.init();
+	}
+
+	SpaceInvaders.prototype.init = function() {
+		let that = this;
+
+		SpaceInvadersNamespace.Game.prototype.init.call(that);
+
 		that.lives = LIVES;
 
 		that.addChild(new SpaceInvadersNamespace.Background());
@@ -77,6 +85,12 @@
 		that.removeChild(missile);
 
 		//TODO: create explosion effect
+	}
+
+	SpaceInvaders.prototype.onInvaderOutOfScreen = function(invader) {
+		let that = this;
+
+		that.gameOver();
 	}
 
 	SpaceInvaders.prototype.onDestroyMissile = function(missile) {

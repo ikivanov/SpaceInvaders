@@ -35,6 +35,10 @@
 			that.velocityY = 2.5;
 		}
 
+		if (that.y + that.height > that.game.height) {
+			that.game.onInvaderOutOfScreen(that);
+		}
+
 		SpaceInvadersNamespace.Sprite.prototype.update.call(that);
 
 		that.velocityY = 0;
@@ -44,8 +48,14 @@
 		let that = this,
 			type = sprite.__type;
 
-		if (type === "Missile" || type === "Invader") {
+		if (type === "Missile") {
 			that.game.removeChild(that);
+
+			//TODO: rework
+			let invader = that.game.sprites.find(s => s.__type === "Invader");
+			if (!invader) {
+				that.game.gameOver();
+			}
 		}
 	}
 
