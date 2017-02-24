@@ -13,6 +13,8 @@
 			imageFilename: IMAGE_FILENAME,
 			isNonPlayable: true
 		});
+
+		that.__type = "Background";
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};

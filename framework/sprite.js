@@ -84,6 +84,12 @@
 
 		onCollidedWith: function(sprite) {
 			//add effect or some custom action
+		},
+
+		getRect: function() {
+			let that = this;
+
+			return { x: that.x, y: that.y, width: that.width, height: that.height };
 		}
 	}
 

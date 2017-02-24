@@ -1,4 +1,6 @@
 (function() {
+	let utils = SpaceInvadersNamespace.Utils;
+
 	function Game(config) {
 		let that = this;
 
@@ -35,8 +37,8 @@
 			requestAnimationFrame(that.run.bind(that));
 
 			that.update();
-			that.detectCollisions();
 			that.render();
+			that.detectCollisions();
 		},
 
 		start: function() {
@@ -68,16 +70,14 @@
 				for (let j = 0; j < that.sprites.length; j++) {
 					let sprite2 = that.sprites[j];
 
-					if (sprite2 == sprite) {
+					if (sprite2.isNonPlayable || sprite2 === sprite) {
 						continue;
 					}
 
-					//TODO: collision detection check goes here!
-
-					let hasCollision = false;
+					let hasCollision = utils.hasRectangularCollision(sprite.getRect(), sprite2.getRect());
 					if (hasCollision) {
-						that.sprite.onCollidedWith(sprite2);
-						that.sprite2.onCollidedWith(sprite);
+						sprite.onCollidedWith(sprite2);
+						sprite2.onCollidedWith(sprite);
 						that.onCollisionDetected(sprite, sprite2);
 					}
 				}

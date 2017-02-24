@@ -22,6 +22,8 @@
 		});
 
 		that.lastFireTime = new Date();
+
+		that.__type = "Spacecraft";
 	}
 
 	Spacecraft.prototype.update = function(keyboard) {

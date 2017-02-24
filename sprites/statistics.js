@@ -15,6 +15,8 @@
 		that.lives = 0;
 		that.level = 0;
 		that.scores = 0;
+
+		that.__type = "Statistics";
 	}
 
 	Statistics.prototype.update = function() {

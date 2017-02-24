@@ -4,7 +4,14 @@
 		HEIGHT = 600,
 		LIVES = 3,
 		INVADER_FORMATION_TOP_OFFSET = 50,
-		INVADER_FORMATION_LEFT_OFFSET = 50;
+		INVADER_FORMATION_LEFT_OFFSET = 50,
+		SHIELD_ROWS = 3,
+		SHIELD_COLS = 10,
+		INVADERS_ROWS = 3,
+		INVADERS_COLS = 8,
+		SHIELD_BLOCK_LENGTH = 12,
+		INVADER_WIDTH = 50,
+		INVADER_HEIGHT = 55;
 
 
 	let utils = SpaceInvadersNamespace.Utils;
@@ -25,28 +32,57 @@
 
 		that.addChild(new SpaceInvadersNamespace.Spacecraft({ x: 275, y: 540 }));
 
-		that.addChildren([
-			new SpaceInvadersNamespace.Shield({ x: 60, y: 475 }),
-			new SpaceInvadersNamespace.Shield({ x: 240, y: 475 }),
-			new SpaceInvadersNamespace.Shield({ x: 420, y: 475 })
-		]);
+		for (let x = 60; x <= 420; x += 180) {
+			that._createShieldFormation(x, 475);
+		}
 
-		that.addChild(new SpaceInvadersNamespace.InvaderFormation({ x: 50, y: 50 }));
+		that._createInvaderFormation(50, 50);
+	}
+
+	SpaceInvaders.prototype._createShieldFormation = function(formationX, formationY) {
+		let that = this;
+
+		for (let i = 0; i < SHIELD_ROWS; i++) {
+			for (let j = 0; j < SHIELD_COLS; j++) {
+				let x = formationX + j * SHIELD_BLOCK_LENGTH,
+					y = formationY + i * SHIELD_BLOCK_LENGTH;
+
+				that.addChild( new SpaceInvadersNamespace.ShieldBlock({ x, y }) );
+			}
+		}
+	}
+
+	SpaceInvaders.prototype._createInvaderFormation = function(formationX, formationY) {
+		let that = this;
+
+		for (let i = 0; i < INVADERS_ROWS; i++) {
+			for (let j = 0; j < INVADERS_COLS; j++) {
+				let x = formationX + j * INVADER_WIDTH + 15 * j,
+					y = formationY + i * INVADER_HEIGHT + 10 * i;
+
+				that.addChild( new SpaceInvadersNamespace.Invader({ x, y }) );
+			}
+		}
 	}
 
 	SpaceInvaders.prototype.onMissileLaunched = function(type, x, y) {
 		let that = this;
 
-		that.addChild(new SpaceInvadersNamespace.Missile({ type, x, y }));
+		that.addChild(new SpaceInvadersNamespace.Missile({ type, x, y: y - 10 }));
 	}
 
 	SpaceInvaders.prototype.onMissileOutOfScreen = function(missile) {
-		let that = this,
-			index = that.sprites.indexOf(missile);
+		let that = this;
 
-		if (index !== -1) {
-			that.sprites.splice(index, 1);
-		}
+		that.removeChild(missile);
+
+		//TODO: create explosion effect
+	}
+
+	SpaceInvaders.prototype.onDestroyMissile = function(missile) {
+		let that = this;
+
+		that.removeChild(missile);
 
 		//TODO: create explosion effect
 	}

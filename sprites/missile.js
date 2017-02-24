@@ -24,6 +24,8 @@
 		if (that.type === "allied") {
 			that.velocityY *= -1;
 		}
+
+		that.__type = "Missile";
 	}
 
 	Missile.prototype.update = function() {
@@ -43,6 +45,12 @@
 
 		ctx.fillStyle = "yellow";
 		ctx.fillRect(that.x, that.y, that.width, that.height);
+	}
+
+	Missile.prototype.onCollidedWith = function(sprite) {
+		let that = this;
+
+		that.game.removeChild(that);
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
