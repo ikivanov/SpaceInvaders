@@ -2,10 +2,10 @@
 	const WIDTH = 12,
 		HEIGHT = 12;
 
-	ShieldBlock.prototype = Object.create(SpaceInvadersNamespace.Sprite.prototype);
-	ShieldBlock.prototype.constructor = ShieldBlock;
+	Shield.prototype = Object.create(SpaceInvadersNamespace.Sprite.prototype);
+	Shield.prototype.constructor = Shield;
 
-	function ShieldBlock(config) {
+	function Shield(config) {
 		let that = this;
 
 		config.width = WIDTH;
@@ -13,10 +13,10 @@
 
 		SpaceInvadersNamespace.Sprite.call(that, config);
 
-		that.__type = "ShieldBlock";
+		that.__type = "Shield";
 	}
 
-	ShieldBlock.prototype.render = function() {
+	Shield.prototype.render = function() {
 		let that = this,
 			ctx = that.context;
 
@@ -27,7 +27,7 @@
 		ctx.fillRect(that.x, that.y, WIDTH, HEIGHT);
 	}
 
-	ShieldBlock.prototype.onCollidedWith = function(sprite) {
+	Shield.prototype.onCollidedWith = function(sprite) {
 		let that = this,
 			type = sprite.__type;
 
@@ -37,5 +37,5 @@
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.ShieldBlock = ShieldBlock;
+	SpaceInvadersNamespace.Shield = Shield;
 })();
