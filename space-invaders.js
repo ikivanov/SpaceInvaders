@@ -93,14 +93,6 @@
 		that.gameOver();
 	}
 
-	SpaceInvaders.prototype.onDestroyMissile = function(missile) {
-		let that = this;
-
-		that.removeChild(missile);
-
-		//TODO: create explosion effect
-	}
-
 	SpaceInvaders.prototype.onCollisionDetected = function(sprite1, sprite2) {
 		//override in descendent
 
@@ -108,6 +100,22 @@
 		//2. missile and invader -> invader.destroy(); missile.destroy()
 		//3. missile and spacecraft -> missile.destroy(); spacecraft.destroy() -> gameover
 		//4. missile and shieldBlock -> missile.destroy(); shieldBlock.destroy()
+	}
+
+	SpaceInvaders.prototype.checkGameOver = function() {
+		let that = this,
+			spacecraft = that.sprites.find(sprite => sprite.__type === "Spacecraft");
+
+		if (!spacecraft) {
+			return true;
+		}
+
+		let invaders = that.sprites.find((sprite) => sprite.__type === "Invader");
+		if (!invaders) {
+			return true;
+		}
+
+		return false;
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};

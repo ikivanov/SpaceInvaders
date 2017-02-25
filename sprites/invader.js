@@ -50,12 +50,6 @@
 
 		if (type === "Missile") {
 			that.game.removeChild(that);
-
-			//TODO: rework
-			let invader = that.game.sprites.find(s => s.__type === "Invader");
-			if (!invader) {
-				that.game.gameOver();
-			}
 		}
 	}
 

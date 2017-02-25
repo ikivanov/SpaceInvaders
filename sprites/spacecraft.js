@@ -61,7 +61,6 @@
 
 		if (type === "Missile" || type === "Invader") {
 			that.game.removeChild(that);
-			that.game.gameOver();
 		}
 	}
 

@@ -10,7 +10,7 @@
 		that.y = config.y;
 		that.width = config.width;
 		that.height = config.height;
-		that.zIndex = 0;
+		that.zIndex = config.zIndex !== undefined ? config.zIndex : 0;
 
 		that.image = null;
 		if (config.imageFilename) {
@@ -21,7 +21,7 @@
 		that.children = [];
 		that.velocityX = 0;
 		that.velocityY = 0;
-		that.isVisible = true;
+		that.isVisible = config.isVisible !== undefined ? config.isVisible : true;
 		that.isDestoyed = false;
 		that.isNonPlayable = config.isNonPlayable !== undefined ? config.isNonPlayable : false;
 	}

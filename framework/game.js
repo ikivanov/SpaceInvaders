@@ -33,12 +33,24 @@
 					"Space": false
 				}
 			};
+
+			that.gameOverLabel = new SpaceInvadersNamespace.Label({ x: 260, y: 280, text: "Game Over!", isVisible: false, zIndex: 10000 });
+			that.addChild(that.gameOverLabel);
+
+			that.pauseLabel = new SpaceInvadersNamespace.Label({ x: 260, y: 280, text: "Paused", isVisible: false, zIndex: 10000 });
+			that.addChild(that.pauseLabel);
 		},
 
 		run: function() {
 			let that = this;
 
-			if (that.isPaused || that.isGameOver) {
+			if (that.isGameOver) {
+				that.gameOverLabel.render();
+				return;
+			}
+
+			if (that.isPaused) {
+				that.pauseLabel.render();
 				return;
 			}
 
@@ -58,16 +70,23 @@
 
 			that.isGameOver = that.isPaused = false;
 
+			that.pauseLabel.gameOverLabel = false;
+			that.pauseLabel.isVisible = false;
+
 			that.run();
 		},
 
 		pause: function() {
-			this.isPaused = true;
+			let that = this;
+
+			that.pauseLabel.isVisible = true;
+			that.isPaused = true;
 		},
 
 		gameOver: function() {
 			let that = this;
 
+			that.gameOverLabel.isVisible = true;
 			that.isGameOver = true;
 		},
 
@@ -93,9 +112,17 @@
 						sprite.onCollidedWith(sprite2);
 						sprite2.onCollidedWith(sprite);
 						that.onCollisionDetected(sprite, sprite2);
+
+						if (that.checkGameOver()) {
+							that.gameOver();
+						}
 					}
 				}
 			}
+		},
+
+		checkGameOver: function() {
+			return false;
 		},
 
 		onCollisionDetected: function(sprite1, sprite2) {
@@ -118,6 +145,12 @@
 			ctx.clearRect(0, 0, that.canvas.width, that.canvas.height);
 
 			for (let i = 0; i < that.sprites.length; i++) {
+				let sprite = that.sprites[i];
+
+				if (!sprite.isVisible) {
+					continue;
+				}
+
 				that.sprites[i].render();
 			}
 		},
@@ -133,10 +166,7 @@
 			sprite.context = that.context;
 			sprite.game = that;
 
-			for (let i = 0; i < sprite.children.length; i++) {
-				sprite.children[i].game = that;
-				sprite.children[i].context = sprite.context;
-			}
+			that.sprites.sort((a, b) => a.zIndex - b.zIndex);
 		},
 
 		addChildren: function(sprites) {
