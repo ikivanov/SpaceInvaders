@@ -136,6 +136,12 @@
 				let sprite = that.sprites[i];
 				sprite.update(that.keyboard);
 			}
+
+			that.onAfterUpdate();
+		},
+
+		onAfterUpdate: function() {
+
 		},
 
 		render: function() {

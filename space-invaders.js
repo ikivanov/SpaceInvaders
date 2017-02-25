@@ -11,8 +11,9 @@
 		INVADERS_COLS = 8,
 		SHIELD_BLOCK_LENGTH = 12,
 		INVADER_WIDTH = 50,
-		INVADER_HEIGHT = 55;
-
+		INVADER_HEIGHT = 55,
+		INVADER_FIRE_INTERVAL = 1000,
+		INVADER_MISSILE_VELOCITY = 5;
 
 	let utils = SpaceInvadersNamespace.Utils;
 
@@ -34,11 +35,14 @@
 
 		that.lives = LIVES;
 
+		that.lastEnemyMissileLaunchTime = new Date();
+
 		that.addChild(new SpaceInvadersNamespace.Background());
 		that.addChild(new SpaceInvadersNamespace.Statistics({ x: 25, y: 25 }));
 		that.addChild(new SpaceInvadersNamespace.FPSCounter({ x: 545, y: 25 }));
 
-		that.addChild(new SpaceInvadersNamespace.Spacecraft({ x: 275, y: 540 }));
+		that.spacecraft = new SpaceInvadersNamespace.Spacecraft({ x: 275, y: 540 });
+		that.addChild(that.spacecraft);
 
 		for (let x = 60; x <= 420; x += 180) {
 			that._createShieldFormation(x, 475);
@@ -72,6 +76,28 @@
 			}
 		}
 	}
+
+	SpaceInvaders.prototype.onAfterUpdate = function() {
+		let that = this,
+			now = new Date();
+
+		if (now.getTime() - that.lastEnemyMissileLaunchTime.getTime() > INVADER_FIRE_INTERVAL) {
+			let x = that.spacecraft.x,
+				invadersInSpacecraftRange = that.sprites.filter(sprite => sprite.__type === "Invader" &&
+																		sprite.x >= x - sprite.width &&
+																		sprite.x <= x + sprite.width);
+
+			if (!invadersInSpacecraftRange || invadersInSpacecraftRange.length === 0) {
+				return;
+			}
+
+			let attackingInvader = invadersInSpacecraftRange.reduce((a, b) => a.y < b.y ? b : a);
+			if (attackingInvader) {
+				that.addChild(new SpaceInvadersNamespace.Missile({ type: "enemy", velocityY: INVADER_MISSILE_VELOCITY, x : attackingInvader.x + INVADER_WIDTH / 2, y: attackingInvader.y + INVADER_HEIGHT }));
+				that.lastEnemyMissileLaunchTime = new Date();
+			}
+		}
+	},
 
 	SpaceInvaders.prototype.onMissileLaunched = function(type, x, y) {
 		let that = this;

@@ -19,7 +19,7 @@
 		SpaceInvadersNamespace.Sprite.call(that, config);
 
 		that.type = config.type;
-		that.velocityY = VELOCITY_Y;
+		that.velocityY = config.velocityY !== undefined ? config.velocityY : VELOCITY_Y;
 
 		if (that.type === "allied") {
 			that.velocityY *= -1;
