@@ -13,7 +13,8 @@
 		INVADER_WIDTH = 50,
 		INVADER_HEIGHT = 55,
 		INVADER_FIRE_INTERVAL = 1000,
-		INVADER_MISSILE_VELOCITY = 5;
+		INVADER_MISSILE_VELOCITY = 5,
+		MAX_LEVEL = 4;
 
 	let utils = SpaceInvadersNamespace.Utils;
 
@@ -34,54 +35,34 @@
 		SpaceInvadersNamespace.Game.prototype.init.call(that);
 
 		that.lives = LIVES;
-
 		that.lastEnemyMissileLaunchTime = new Date();
 
 		that.addChild(new SpaceInvadersNamespace.Background());
 		that.addChild(new SpaceInvadersNamespace.Statistics({ x: 25, y: 25 }));
 		that.addChild(new SpaceInvadersNamespace.FPSCounter({ x: 545, y: 25 }));
 
-		that.spacecraft = new SpaceInvadersNamespace.Spacecraft({ x: 275, y: 540 });
-		that.addChild(that.spacecraft);
-
-		for (let x = 60; x <= 420; x += 180) {
-			that._createShieldFormation(x, 475);
-		}
-
-		that._createInvaderFormation(50, 50);
+		that.level = 1;
+		that.loadLevel(that.level);
 	}
 
-	SpaceInvaders.prototype._createShieldFormation = function(formationX, formationY) {
+	SpaceInvaders.prototype.cleanUpLevel = function() {
 		let that = this;
 
-		for (let i = 0; i < SHIELD_ROWS; i++) {
-			for (let j = 0; j < SHIELD_COLS; j++) {
-				let x = formationX + j * SHIELD_BLOCK_LENGTH,
-					y = formationY + i * SHIELD_BLOCK_LENGTH;
-
-				that.addChild( new SpaceInvadersNamespace.Shield({ x, y }) );
-			}
-		}
+		that.sprites = that.sprites.filter(sprite => sprite.__type === "Background" || sprite.__type === "Statistics" || sprite.__type === "fpscounter");
 	}
 
-	SpaceInvaders.prototype._createInvaderFormation = function(formationX, formationY) {
+	SpaceInvaders.prototype.loadLevel = function(level) {
 		let that = this;
 
-		for (let i = 0; i < INVADERS_ROWS; i++) {
-			for (let j = 0; j < INVADERS_COLS; j++) {
-				let x = formationX + j * INVADER_WIDTH + 15 * j,
-					y = formationY + i * INVADER_HEIGHT + 10 * i;
-
-				that.addChild( new SpaceInvadersNamespace.Invader({ x, y }) );
-			}
-		}
+		that.currentLevel = SpaceInvadersNamespace.LevelFactory.create(level, { game: that });
+		that.currentLevel.load();
 	}
 
 	SpaceInvaders.prototype.onAfterUpdate = function() {
 		let that = this,
 			now = new Date();
 
-		if (now.getTime() - that.lastEnemyMissileLaunchTime.getTime() > INVADER_FIRE_INTERVAL) {
+		if (now.getTime() - that.lastEnemyMissileLaunchTime.getTime() > that.currentLevel.invaderFireInterval) {
 			let x = that.spacecraft.x,
 				invadersInSpacecraftRange = that.sprites.filter(sprite => sprite.__type === "Invader" &&
 																		sprite.x >= x - sprite.width &&
@@ -128,6 +109,17 @@
 		//4. missile and shieldBlock -> missile.destroy(); shieldBlock.destroy()
 	}
 
+	SpaceInvaders.prototype.isLevelCompleted = function() {
+		let that = this,
+			invaders = that.sprites.find((sprite) => sprite.__type === "Invader");
+
+		if (!invaders) {
+			return true;
+		}
+
+		return false;
+	}
+
 	SpaceInvaders.prototype.checkGameOver = function() {
 		let that = this,
 			spacecraft = that.sprites.find(sprite => sprite.__type === "Spacecraft");
@@ -137,7 +129,7 @@
 		}
 
 		let invaders = that.sprites.find((sprite) => sprite.__type === "Invader");
-		if (!invaders) {
+		if (!invaders && that.level === MAX_LEVEL) {
 			return true;
 		}
 

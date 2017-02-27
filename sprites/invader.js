@@ -21,6 +21,7 @@
 
 		that.velocityX = -1;
 		that.velocityY = 0;
+		that.fireInterval = config.fireInterval !== undefined ? config.fireInterval : FIRE_INTERVAL;
 
 		that.lastFireTime = new Date();
 
@@ -57,7 +58,7 @@
 		let that = this,
 			now = new Date();
 
-		if (now.getTime() - that.lastFireTime.getTime() > FIRE_INTERVAL) {
+		if (now.getTime() - that.lastFireTime.getTime() > that.fireInterval) {
 			that.lastFireTime = now;
 			return true;
 		}

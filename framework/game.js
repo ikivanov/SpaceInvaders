@@ -1,4 +1,6 @@
 (function() {
+	const MAX_LEVEL = 4;
+
 	let utils = SpaceInvadersNamespace.Utils;
 
 	function Game(config) {
@@ -115,10 +117,44 @@
 
 						if (that.checkGameOver()) {
 							that.gameOver();
+							return;
+						}
+
+						if (that.isLevelCompleted()) {
+							that.onLevelCompleted();
 						}
 					}
 				}
 			}
+		},
+
+		isLevelCompleted: function() {
+			return false;
+		},
+
+		cleanUpLevel: function() {
+
+		},
+
+		loadLevel: function() {
+
+		},
+
+		onLevelCompleted: function() {
+			let that = this;
+
+			if (that.level === MAX_LEVEL) {
+				that.gameOver();
+				return;
+			}
+
+			that.level++;
+			that.cleanUpLevel();
+			that.loadLevel(that.level);
+		},
+
+		checkLevelCompleted: function() {
+			return false;
 		},
 
 		checkGameOver: function() {
