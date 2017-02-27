@@ -22,7 +22,7 @@
 	Statistics.prototype.update = function() {
 		let that = this;
 
-		that.lives = that.game.lives;
+		that.lives = that.game.spacecraft ? that.game.spacecraft.lives : 0;
 		that.level = that.game.level;
 		that.scores = that.game.scores;
 	}

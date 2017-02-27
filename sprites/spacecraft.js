@@ -5,7 +5,8 @@
 		WIDTH = 50,
 		HEIGHT = 46,
 		FIRE_INTERVAL = 250,
-		IMAGE_FILENAME = "images/spacecraft.png";
+		IMAGE_FILENAME = "images/spacecraft.png",
+		LIVES = 3;
 
 	Spacecraft.prototype = Object.create(SpaceInvadersNamespace.Sprite.prototype);
 	Spacecraft.prototype.constructor = Spacecraft;
@@ -24,6 +25,8 @@
 		that.lastFireTime = new Date();
 
 		that.__type = "Spacecraft";
+
+		that.lives = LIVES;
 	}
 
 	Spacecraft.prototype.update = function(keyboard) {
@@ -60,7 +63,11 @@
 			type = sprite.__type;
 
 		if (type === "Missile" || type === "Invader") {
-			that.game.removeChild(that);
+			that.lives--;
+
+			if (that.lives === 0) {
+				that.game.removeChild(that);
+			}
 		}
 	}
 

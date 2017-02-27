@@ -2,7 +2,6 @@
 	const
 		SPACECRAFT_POSITION = { x: 275, y: 540 },
 		HEIGHT = 600,
-		LIVES = 3,
 		INVADER_FORMATION_TOP_OFFSET = 50,
 		INVADER_FORMATION_LEFT_OFFSET = 50,
 		SHIELD_ROWS = 3,
@@ -34,7 +33,6 @@
 
 		SpaceInvadersNamespace.Game.prototype.init.call(that);
 
-		that.lives = LIVES;
 		that.lastEnemyMissileLaunchTime = new Date();
 
 		that.addChild(new SpaceInvadersNamespace.Background());
