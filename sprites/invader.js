@@ -11,7 +11,9 @@
 	function Invader(config) {
 		let that = this;
 
-		config.imageFilename = IMAGE_FILENAME;
+		if (!config.imageFilename) {
+			config.imageFilename = IMAGE_FILENAME;
+		}
 		config.width = WIDTH;
 		config.height = HEIGHT;
 

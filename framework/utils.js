@@ -19,6 +19,11 @@
 		return false;
 	}
 
+	Utils.randomRange = function(min, max)
+	{
+		return ((Math.random()*(max - min)) + min);
+	}
+
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
 	SpaceInvadersNamespace.Utils = Utils;
 })();

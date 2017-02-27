@@ -62,7 +62,9 @@
 
 		if (now.getTime() - that.lastEnemyMissileLaunchTime.getTime() > that.currentLevel.invaderFireInterval) {
 			let x = that.spacecraft.x,
-				invadersInSpacecraftRange = that.sprites.filter(sprite => sprite.__type === "Invader" &&
+				invadersInSpacecraftRange = that.sprites.filter(sprite =>
+																		(sprite.__type === "Invader" ||
+																		sprite.__type === "Invader2") &&
 																		sprite.x >= x - sprite.width &&
 																		sprite.x <= x + sprite.width);
 
@@ -72,7 +74,13 @@
 
 			let attackingInvader = invadersInSpacecraftRange.reduce((a, b) => a.y < b.y ? b : a);
 			if (attackingInvader) {
-				that.addChild(new SpaceInvadersNamespace.Missile({ type: "enemy", velocityY: INVADER_MISSILE_VELOCITY, x : attackingInvader.x + INVADER_WIDTH / 2, y: attackingInvader.y + INVADER_HEIGHT }));
+				if (attackingInvader.__type === "Invader") {
+					that.addChild(new SpaceInvadersNamespace.Missile({ type: "enemy", velocityY: INVADER_MISSILE_VELOCITY, x : attackingInvader.x + INVADER_WIDTH / 2, y: attackingInvader.y + INVADER_HEIGHT }));
+				} else if (attackingInvader.__type === "Invader2") {
+					that.addChild(new SpaceInvadersNamespace.Missile({ type: "enemy", velocityY: INVADER_MISSILE_VELOCITY, x : attackingInvader.x + 3, y: attackingInvader.y + INVADER_HEIGHT}));
+					that.addChild(new SpaceInvadersNamespace.Missile({ type: "enemy", velocityY: INVADER_MISSILE_VELOCITY, x : attackingInvader.x + INVADER_WIDTH - 3, y: attackingInvader.y + INVADER_HEIGHT }));
+				}
+
 				that.lastEnemyMissileLaunchTime = new Date();
 			}
 		}
@@ -109,7 +117,7 @@
 
 	SpaceInvaders.prototype.isLevelCompleted = function() {
 		let that = this,
-			invaders = that.sprites.find((sprite) => sprite.__type === "Invader");
+			invaders = that.sprites.find((sprite) => sprite.__type === "Invader" || sprite.__type === "Invader2");
 
 		if (!invaders) {
 			return true;
@@ -126,7 +134,7 @@
 			return true;
 		}
 
-		let invaders = that.sprites.find((sprite) => sprite.__type === "Invader");
+		let invaders = that.sprites.find((sprite) => sprite.__type === "Invader" || sprite.__type === "Invader2");
 		if (!invaders && that.level === MAX_LEVEL) {
 			return true;
 		}
@@ -137,9 +145,7 @@
 	SpaceInvaders.prototype.updateScores = function(invader) {
 		let that = this;
 
-		if (invader.__type === "Invader") {
-			that.scores += that.level * invader.scoreBonus;
-		}
+		that.scores += that.level * invader.scoreBonus;
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
