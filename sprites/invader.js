@@ -27,6 +27,7 @@
 
 		that.__type = "Invader";
 		that.scoreBonus = 10;
+		that.lives = config.lives !== undefined ? config.lives : 1;
 	}
 
 	Invader.prototype.update = function() {
@@ -51,8 +52,12 @@
 			type = sprite.__type;
 
 		if (type === "Missile") {
-			that.game.updateScores(that);
-			that.game.removeChild(that);
+			that.lives--;
+
+			if (that.lives === 0) {
+				that.game.updateScores(that);
+				that.game.removeChild(that);
+			}
 		}
 	}
 

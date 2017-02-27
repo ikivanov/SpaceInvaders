@@ -26,6 +26,7 @@
 		that.invaderHorizontalSpacing = 15;
 		that.invaderVerticalSpacing = 12;
 		that.invaderFireInterval = 1000;
+		that.invaderLives = 1;
 	}
 
 	BaseLevel.prototype = {
@@ -75,7 +76,7 @@
 					let x = that.invaderFormationOffsetX + j * that.invaderWidth + that.invaderHorizontalSpacing * j,
 						y = that.invaderFormationOffsetY + i * that.invaderHeight + that.invaderVerticalSpacing * i;
 
-					that.game.addChild( new SpaceInvadersNamespace.Invader({ x, y, fireInterval }) );
+					that.game.addChild( new SpaceInvadersNamespace.Invader({ x, y, fireInterval, lives: that.invaderLives }) );
 				}
 			}
 		}
@@ -105,6 +106,7 @@
 
 		that.invadersRows = 4;
 		that.invaderFireInterval = 750;
+		that.invaderLives = 2;
 	}
 
 	Level3.prototype = Object.create(BaseLevel.prototype);
@@ -122,6 +124,7 @@
 
 		that.invadersRows = 5;
 		that.invaderFireInterval = 500;
+		that.invaderLives = 3;
 	}
 
 	Level4.prototype = Object.create(BaseLevel.prototype);
@@ -138,6 +141,7 @@
 
 		that.invadersRows = 5;
 		that.invaderFireInterval = 500;
+		that.invaderLives = 4;
 	}
 
 	function LevelFactory() {}
