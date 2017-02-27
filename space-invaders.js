@@ -136,6 +136,14 @@
 		return false;
 	}
 
+	SpaceInvaders.prototype.updateScores = function(invader) {
+		let that = this;
+
+		if (invader.__type === "Invader") {
+			that.scores += that.level * invader.scoreBonus;
+		}
+	}
+
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
 	SpaceInvadersNamespace.SpaceInvaders = SpaceInvaders;
 })();

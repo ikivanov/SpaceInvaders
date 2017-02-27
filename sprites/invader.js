@@ -26,6 +26,7 @@
 		that.lastFireTime = new Date();
 
 		that.__type = "Invader";
+		that.scoreBonus = 10;
 	}
 
 	Invader.prototype.update = function() {
@@ -50,6 +51,7 @@
 			type = sprite.__type;
 
 		if (type === "Missile") {
+			that.game.updateScores(that);
 			that.game.removeChild(that);
 		}
 	}
