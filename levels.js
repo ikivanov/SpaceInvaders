@@ -158,7 +158,7 @@
 		that.initialSpacecraftY = 540;
 		that.shieldRows = 0;
 
-		that.invadersRows = 3;
+		that.invadersRows = 5;
 		that.invaderFireInterval = 500;
 		that.invaderLives = 4;
 	}

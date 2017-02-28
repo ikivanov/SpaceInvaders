@@ -10,14 +10,16 @@
 
 		that.__type = "Label";
 		that.text = config.text;
+		that.color = config.color;
+		that.size = config.size;
 	}
 
 	Label.prototype.render = function() {
 		var that = this,
 			ctx = that.context;
 
-		ctx.font = "14px Arial";
-		ctx.fillStyle = "white";
+		ctx.font = that.size + "px Arial";
+		ctx.fillStyle = that.color;
 		ctx.textAlign = "left";
 		ctx.fillText(that.text, that.x, that.y);
 	}

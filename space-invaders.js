@@ -40,7 +40,9 @@
 		that.addChild(new SpaceInvadersNamespace.FPSCounter({ x: 545, y: 25 }));
 
 		that.level = 1;
-		that.loadLevel(that.level);
+		that.levelDescriptorCreated = new Date();
+		that.levelDescriptor = new SpaceInvadersNamespace.Label({ text: `Level ${that.level} is loading... Get ready!`, x: 175, y: 300, color: "red", size: 22 });
+		that.addChild(that.levelDescriptor);
 	}
 
 	SpaceInvaders.prototype.cleanUpLevel = function() {
@@ -59,6 +61,17 @@
 	SpaceInvaders.prototype.onAfterUpdate = function() {
 		let that = this,
 			now = new Date();
+
+		if (that.levelDescriptor && now.getTime() - that.levelDescriptorCreated.getTime() > 2000) {
+			that.removeChild(that.levelDescriptor);
+			that.levelDescriptor = null;
+
+			that.loadLevel(that.level);
+		}
+
+		if (!that.currentLevel) {
+			return;
+		}
 
 		if (now.getTime() - that.lastEnemyMissileLaunchTime.getTime() > that.currentLevel.invaderFireInterval) {
 			let x = that.spacecraft.x,
@@ -84,6 +97,22 @@
 				that.lastEnemyMissileLaunchTime = new Date();
 			}
 		}
+	},
+
+	SpaceInvaders.prototype.onLevelCompleted = function() {
+		let that = this;
+
+		if (that.level === MAX_LEVEL) {
+			that.gameOver();
+			return;
+		}
+
+		that.cleanUpLevel();
+		that.level++;
+
+		that.levelDescriptorCreated = new Date();
+		that.levelDescriptor = new SpaceInvadersNamespace.Label({ text: `Level ${that.level} is loading... Get ready!`, x: 175, y: 300, color: "red", size: 22 });
+		that.addChild(that.levelDescriptor);
 	},
 
 	SpaceInvaders.prototype.onMissileLaunched = function(type, x, y) {

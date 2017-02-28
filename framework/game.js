@@ -141,16 +141,6 @@
 		},
 
 		onLevelCompleted: function() {
-			let that = this;
-
-			if (that.level === MAX_LEVEL) {
-				that.gameOver();
-				return;
-			}
-
-			that.level++;
-			that.cleanUpLevel();
-			that.loadLevel(that.level);
 		},
 
 		checkLevelCompleted: function() {
