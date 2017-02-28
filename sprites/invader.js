@@ -3,7 +3,9 @@
 		WIDTH = 50,
 		HEIGHT = 55,
 		FIRE_INTERVAL = 250,
-		OFFSET_X = 50;
+		OFFSET_X = 50,
+		SPEED_X = 60, //pixels per second
+		SPEED_Y = 150;
 
 	Invader.prototype = Object.create(SpaceInvadersNamespace.Sprite.prototype);
 	Invader.prototype.constructor = Invader;
@@ -21,7 +23,7 @@
 
 		that.initialX = that.x;
 
-		that.velocityX = -1;
+		that.velocityX = -SPEED_X;
 		that.velocityY = 0;
 		that.fireInterval = config.fireInterval !== undefined ? config.fireInterval : FIRE_INTERVAL;
 
@@ -32,19 +34,32 @@
 		that.lives = config.lives !== undefined ? config.lives : 1;
 	}
 
-	Invader.prototype.update = function() {
-		let that = this;
+	Invader.prototype.update = function(lastFrameEllapsedTime, keyboard) {
+		let that = this,
+			leftBorder = that.initialX - OFFSET_X,
+			rightBorder = that.initialX + OFFSET_X,
+			isBorderReached = false;
 
-		if (that.x < that.initialX - OFFSET_X || that.x > that.initialX + OFFSET_X) {
+		if (that.x < leftBorder) {
+			that.x = leftBorder;
+			isBorderReached = true;
+		}
+
+		if (that.x > rightBorder) {
+			that.x = rightBorder;
+			isBorderReached = true;
+		}
+
+		if (isBorderReached) {
 			that.velocityX *= -1;
-			that.velocityY = 2.5;
+			that.velocityY = SPEED_Y;
 		}
 
 		if (that.y + that.height > that.game.height) {
 			that.game.onInvaderOutOfScreen(that);
 		}
 
-		SpaceInvadersNamespace.Sprite.prototype.update.call(that);
+		SpaceInvadersNamespace.Sprite.prototype.update.call(that, lastFrameEllapsedTime, keyboard);
 
 		that.velocityY = 0;
 	}

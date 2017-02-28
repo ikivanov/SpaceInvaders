@@ -20,6 +20,7 @@
 		init: function() {
 			let that = this;
 
+			that.lastFrameTime = Date.now();
 			that.sprites = [];
 
 			that.isPaused = false;
@@ -44,7 +45,9 @@
 		},
 
 		run: function() {
-			let that = this;
+			let that = this,
+				now = Date.now(),
+				lastFrameEllapsedTime = (now - that.lastFrameTime) / 1000.0;
 
 			if (that.isGameOver) {
 				that.gameOverLabel.render();
@@ -56,15 +59,20 @@
 				return;
 			}
 
-			requestAnimationFrame(that.run.bind(that));
-
-			that.update();
+			that.update(lastFrameEllapsedTime, that.keyboard);
 			that.render();
-			that.detectCollisions();
+
+			that.lastFrameTime = Date.now();
+
+			requestAnimationFrame(that.run.bind(that));
 		},
 
 		start: function() {
 			var that = this;
+
+			if (!that.isGameOver && !that.isPaused) {
+				return;
+			}
 
 			if (that.isGameOver) {
 				that.init();
@@ -74,6 +82,8 @@
 
 			that.pauseLabel.gameOverLabel = false;
 			that.pauseLabel.isVisible = false;
+
+			that.lastFrameTime = Date.now();
 
 			that.run();
 		},
@@ -155,15 +165,17 @@
 			throw new Error("You need to override onCollisionDetected!");
 		},
 
-		update: function() {
+		update: function(lastFrameEllapsedTime, keyboard) {
 			let that = this;
 
 			for (let i = 0; i < that.sprites.length; i++) {
 				let sprite = that.sprites[i];
-				sprite.update(that.keyboard);
+				sprite.update(lastFrameEllapsedTime, keyboard);
 			}
 
 			that.onAfterUpdate();
+
+			that.detectCollisions();
 		},
 
 		onAfterUpdate: function() {

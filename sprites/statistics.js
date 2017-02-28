@@ -19,7 +19,7 @@
 		that.__type = "Statistics";
 	}
 
-	Statistics.prototype.update = function() {
+	Statistics.prototype.update = function(lastFrameEllapsedTime, keyboard) {
 		let that = this;
 
 		that.lives = that.game.spacecraft ? that.game.spacecraft.lives : 0;

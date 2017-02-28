@@ -1,6 +1,6 @@
 (function() {
 	const IMAGE_FILENAME = "images/Missile-50x46.png",
-		VELOCITY_Y = 10,
+		VELOCITY_Y = 600, //pixels per second
 		WIDTH = 4,
 		HEIGHT = 10;
 
@@ -28,10 +28,10 @@
 		that.__type = "Missile";
 	}
 
-	Missile.prototype.update = function() {
+	Missile.prototype.update = function(lastFrameEllapsedTime, keyboard) {
 		let that = this;
 
-		SpaceInvadersNamespace.Sprite.prototype.update.call(that);
+		SpaceInvadersNamespace.Sprite.prototype.update.call(that, lastFrameEllapsedTime, keyboard);
 
 		if (that.x <= 0 || that.x + that.width >= that.game.width ||
 			that.y <= 0 || that.y + that.height > that.game.height) {

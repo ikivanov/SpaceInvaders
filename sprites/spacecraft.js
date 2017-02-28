@@ -1,5 +1,5 @@
 (function() {
-	const SPEED_X = 5,
+	const SPEED_X = 300, //pixels per second
 		MIN_X = 5,
 		MAX_X = 545,
 		WIDTH = 50,
@@ -29,26 +29,27 @@
 		that.lives = LIVES;
 	}
 
-	Spacecraft.prototype.update = function(keyboard) {
-		let that = this;
-
+	Spacecraft.prototype.update = function(lastFrameEllapsedTime, keyboard) {
 		if (!keyboard) {
 			return;
 		}
 
+		let that = this,
+			distance = SPEED_X * lastFrameEllapsedTime;
+
 		if (keyboard.keys.ArrowLeft === true) {
-			if (that.x - SPEED_X < MIN_X) {
+			if (that.x - distance < MIN_X) {
 				that.x = MIN_X;
 			} else {
-				that.x -= SPEED_X;
+				that.x -= distance;
 			}
 		}
 
 		if (keyboard.keys.ArrowRight === true) {
-			if (that.x + SPEED_X > MAX_X) {
+			if (that.x + distance > MAX_X) {
 				that.x = MAX_X;
 			} else {
-				that.x += SPEED_X;
+				that.x += distance;
 			}
 		}
 

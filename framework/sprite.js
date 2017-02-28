@@ -18,7 +18,6 @@
 		}
 
 		that.parent = null;
-		that.children = [];
 		that.velocityX = 0;
 		that.velocityY = 0;
 		that.isVisible = config.isVisible !== undefined ? config.isVisible : true;
@@ -28,15 +27,13 @@
 
 	Sprite.prototype = {
 		//override for custom updating
-		update: function() {
-			let that = this;
+		update: function(lastFrameEllapsedTime, keyboard) {
+			let that = this,
+				distanceX = that.velocityX * lastFrameEllapsedTime,
+				distanceY = that.velocityY * lastFrameEllapsedTime;
 
-			that.x += that.velocityX;
-			that.y += that.velocityY;
-
-			for (let i = 0; i < that.children.length; i++) {
-				that.children[i].update();
-			}
+			that.x += distanceX;
+			that.y += distanceY;
 		},
 
 		//override for custom rendering
@@ -47,38 +44,6 @@
 			if (that.image) {
 				ctx.drawImage(that.image, that.x, that.y);
 				return;
-			}
-
-			if (that.children.length) {
-				for (let i = 0; i < that.children.length; i++) {
-					that.children[i].render();
-				}
-			}
-		},
-
-		addChild: function(sprite) {
-			if (!sprite) {
-				return;
-			}
-
-			let that = this;
-
-			that.children.push(sprite);
-			sprite.parent = that;
-			sprite.context = that.context;
-			sprite.game = that.game;
-		},
-
-		removeChild: function(sprite) {
-			if (!sprite) {
-				return;
-			}
-
-			let that = this,
-				index = that.children.indexOf(sprite);
-
-			if (index !== -1) {
-				that.children.splice(index, 1);
 			}
 		},
 

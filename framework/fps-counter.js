@@ -5,7 +5,7 @@
 	function FPSCounter(config) {
 		var that = this;
 
-		that.__type === "fpscounter";
+		that.__type = "fpscounter";
 		config.isNonPlayable = true;
 		SpaceInvadersNamespace.Sprite.call(that, config);
 
