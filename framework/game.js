@@ -143,18 +143,12 @@
 		},
 
 		cleanUpLevel: function() {
-
 		},
 
 		loadLevel: function() {
-
 		},
 
 		onLevelCompleted: function() {
-		},
-
-		checkLevelCompleted: function() {
-			return false;
 		},
 
 		checkGameOver: function() {
@@ -179,7 +173,6 @@
 		},
 
 		onAfterUpdate: function() {
-
 		},
 
 		render: function() {

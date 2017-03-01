@@ -74,6 +74,8 @@
 			if (that.lives === 0) {
 				that.game.updateScores(that);
 				that.game.removeChild(that);
+
+				that.game.addChild(new SpaceInvadersNamespace.Explosion({ x: that.x, y: that.y }));
 			}
 		}
 	}

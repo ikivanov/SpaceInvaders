@@ -58,11 +58,22 @@
 		that.currentLevel.load();
 	}
 
+	SpaceInvaders.prototype._removeCompletedExplosions = function() {
+		let that = this,
+			explosionsCompleted = that.sprites.filter(sprite => sprite.__type === "Explosion" && sprite.isCompleted);
+
+		if (explosionsCompleted && explosionsCompleted.length > 0) {
+			for (let i = 0; i < explosionsCompleted.length; i++) {
+				that.removeChild(explosionsCompleted[i]);
+			}
+		}
+	}
+
 	SpaceInvaders.prototype.onAfterUpdate = function() {
 		let that = this,
 			now = new Date();
 
-		if (that.levelDescriptor && now.getTime() - that.levelDescriptorCreated.getTime() > 2000) {
+		if (that.levelDescriptor && now.getTime() - that.levelDescriptorCreated.getTime() > 1000) {
 			that.removeChild(that.levelDescriptor);
 			that.levelDescriptor = null;
 
@@ -72,6 +83,8 @@
 		if (!that.currentLevel) {
 			return;
 		}
+
+		that._removeCompletedExplosions();
 
 		if (now.getTime() - that.lastEnemyMissileLaunchTime.getTime() > that.currentLevel.invaderFireInterval) {
 			let x = that.spacecraft.x,
@@ -136,12 +149,6 @@
 	}
 
 	SpaceInvaders.prototype.onCollisionDetected = function(sprite1, sprite2) {
-		//override in descendent
-
-		//1. invader && spacecraft -> invader.destroy(); spacecraft.destroy() -> gameover
-		//2. missile and invader -> invader.destroy(); missile.destroy()
-		//3. missile and spacecraft -> missile.destroy(); spacecraft.destroy() -> gameover
-		//4. missile and shieldBlock -> missile.destroy(); shieldBlock.destroy()
 	}
 
 	SpaceInvaders.prototype.isLevelCompleted = function() {
