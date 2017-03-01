@@ -98,6 +98,7 @@
 		gameOver: function() {
 			let that = this;
 
+			that.currentLevel = null;
 			that.gameOverLabel.isVisible = true;
 			that.isGameOver = true;
 		},
@@ -124,15 +125,6 @@
 						sprite.onCollidedWith(sprite2);
 						sprite2.onCollidedWith(sprite);
 						that.onCollisionDetected(sprite, sprite2);
-
-						if (that.checkGameOver()) {
-							that.gameOver();
-							return;
-						}
-
-						if (that.isLevelCompleted()) {
-							that.onLevelCompleted();
-						}
 					}
 				}
 			}
@@ -156,7 +148,6 @@
 		},
 
 		onCollisionDetected: function(sprite1, sprite2) {
-			throw new Error("You need to override onCollisionDetected!");
 		},
 
 		update: function(lastFrameEllapsedTime, keyboard) {
@@ -170,6 +161,17 @@
 			that.onAfterUpdate();
 
 			that.detectCollisions();
+
+			if (that.currentLevel) {
+				if (that.checkGameOver()) {
+					that.gameOver();
+					return;
+				}
+
+				if (that.isLevelCompleted()) {
+					that.onLevelCompleted();
+				}
+			}
 		},
 
 		onAfterUpdate: function() {

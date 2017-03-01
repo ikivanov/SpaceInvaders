@@ -136,7 +136,7 @@
 		that.invaderLives = 3;
 	}
 
-	Level3.prototype.createInvader = function() {
+	Level3.prototype.createInvader = function(x, y) {
 		let that = this;
 
 		let invaderType = Math.round(utils.randomRange(0, 1)),

@@ -73,6 +73,8 @@
 		let that = this,
 			now = new Date();
 
+		that._removeCompletedExplosions();
+
 		if (that.levelDescriptor && now.getTime() - that.levelDescriptorCreated.getTime() > 1000) {
 			that.removeChild(that.levelDescriptor);
 			that.levelDescriptor = null;
@@ -80,11 +82,9 @@
 			that.loadLevel(that.level);
 		}
 
-		if (!that.currentLevel) {
+		if (!that.currentLevel || !that.spacecraft) {
 			return;
 		}
-
-		that._removeCompletedExplosions();
 
 		if (now.getTime() - that.lastEnemyMissileLaunchTime.getTime() > that.currentLevel.invaderFireInterval) {
 			let x = that.spacecraft.x,
@@ -120,6 +120,7 @@
 			return;
 		}
 
+		that.currentLevel = null;
 		that.cleanUpLevel();
 		that.level++;
 
@@ -138,8 +139,6 @@
 		let that = this;
 
 		that.removeChild(missile);
-
-		//TODO: create explosion effect
 	}
 
 	SpaceInvaders.prototype.onInvaderOutOfScreen = function(invader) {
@@ -148,14 +147,14 @@
 		that.gameOver();
 	}
 
-	SpaceInvaders.prototype.onCollisionDetected = function(sprite1, sprite2) {
-	}
-
 	SpaceInvaders.prototype.isLevelCompleted = function() {
 		let that = this,
-			invaders = that.sprites.find((sprite) => sprite.__type === "Invader" || sprite.__type === "DoubleWeaponInvader");
+			sprites = that.sprites.find((sprite) => sprite.__type === "Invader" ||
+														sprite.__type === "DoubleWeaponInvader" ||
+														sprite.__type === "Missile" ||
+														sprite.__type === "Explosion");
 
-		if (!invaders) {
+		if (!sprites) {
 			return true;
 		}
 
@@ -163,15 +162,22 @@
 	}
 
 	SpaceInvaders.prototype.checkGameOver = function() {
-		let that = this,
-			spacecraft = that.sprites.find(sprite => sprite.__type === "Spacecraft");
+		let that = this;
 
-		if (!spacecraft) {
+		sprites = that.sprites.find(sprite => sprite.__type === "Explosion" ||
+												sprite.__type === "Spacecraft" ||
+												sprite.__type === "Missile");
+
+		if (!sprites) {
 			return true;
 		}
 
-		let invaders = that.sprites.find((sprite) => sprite.__type === "Invader" || sprite.__type === "DoubleWeaponInvader");
-		if (!invaders && that.level === MAX_LEVEL) {
+		sprites = that.sprites.find((sprite) => sprite.__type === "Invader" ||
+													sprite.__type === "DoubleWeaponInvader" ||
+													sprite.__type === "Missile" ||
+													sprite.__type === "Explosion");
+
+		if (!sprites && that.level === MAX_LEVEL) {
 			return true;
 		}
 
@@ -182,6 +188,13 @@
 		let that = this;
 
 		that.scores += that.level * invader.scoreBonus;
+	}
+
+	SpaceInvaders.prototype.removeSpacecraft = function(sprite) {
+		let that = this;
+
+		that.removeChild(sprite);
+		that.spacecraft = null;
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
