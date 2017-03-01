@@ -15,7 +15,7 @@
 
 	Utils.randomRange = function(min, max)
 	{
-		return ((Math.random()*(max - min)) + min);
+		return ((Math.random() * (max - min)) + min);
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};

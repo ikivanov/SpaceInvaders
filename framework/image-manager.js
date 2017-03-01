@@ -19,6 +19,9 @@
 							that.cachedImages[url] = image;
 							resolve(image);
 						}
+						image.onerror = function(err) {
+							reject({ reason: `${url} does not exist` });
+						}
 						image.src = url;
 					}
 				});
@@ -26,17 +29,19 @@
 			return promise;
 		},
 
-		loadImages: function() {
+		loadImages: function(imagesToLoad) {
 			let that = this,
-				promise = Promise.all([
-					that.loadImage("images/background.png"),
-					that.loadImage("images/explosion.png"),
-					that.loadImage("images/invader.png"),
-					that.loadImage("images/double-weapon-invader.png"),
-					that.loadImage("images/spacecraft.png")
-				]);
+				promises = [];
 
-			return promise;
+			if (!imagesToLoad || imagesToLoad.length === 0) {
+				return Promise.reject({ reason: "Provide an image list to load before calling ImageManager.loadImages!" });
+			}
+
+			for (let i = 0; i < imagesToLoad.length; i++) {
+				promises.push(that.loadImage(imagesToLoad[i]));
+			}
+
+			return Promise.all(promises);
 		},
 
 		getImage: function(url) {

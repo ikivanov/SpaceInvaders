@@ -1,6 +1,12 @@
 <html>
+	<style>
+		#game-arena {
+			cursor: none;
+		}
+	</style>
+
 	<body>
-		<canvas id="game-arena" style="cursor: none;" width="600" height="600"></canvas>
+		<canvas id="game-arena" width="600" height="600"></canvas>
 	</body>
 
 	<script type="text/javascript" src="framework/requestAnimationFrame-pollyfill.js"></script>
@@ -26,11 +32,14 @@
 	<script type="text/javascript">
 		window.onload = function() {
 			window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-			let canvas = document.getElementById("game-arena");
+			let canvas = document.getElementById("game-arena"),
+				imagesToLoad = ["images/background.png", "images/explosion.png", "images/invader.png", "images/double-weapon-invader.png", "images/spacecraft.png"];
 
-			SpaceInvadersNamespace.ImageManager.loadImages().then(function() {
+			SpaceInvadersNamespace.ImageManager.loadImages(imagesToLoad).then(function() {
 				let game = new SpaceInvadersNamespace.SpaceInvaders({ canvas: canvas });
 				game.run();
+			}).catch(function(err) {
+				throw new Error(`Space Invaders cannot be run! Reason: ${err.reason}.`);
 			});
 		}
 	</script>
