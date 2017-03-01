@@ -68,7 +68,7 @@
 		},
 
 		start: function() {
-			var that = this;
+			let that = this;
 
 			if (!that.isGameOver && !that.isPaused) {
 				return;
@@ -232,7 +232,7 @@
 		},
 
 		_onKeyDown: function(e) {
-			var that = this,
+			let that = this,
 				code = e.code;
 
 			if (code === "KeyS") {
@@ -255,7 +255,7 @@
 		},
 
 		_onKeyUp: function(e) {
-			var that = this,
+			let that = this,
 				code = e.code;
 
 			if (code !== "ArrowLeft" && code !== "ArrowRight" && code != "Space") {

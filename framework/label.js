@@ -15,7 +15,7 @@
 	}
 
 	Label.prototype.render = function() {
-		var that = this,
+		let that = this,
 			ctx = that.context;
 
 		ctx.font = that.size + "px Arial";

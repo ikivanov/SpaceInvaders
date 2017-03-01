@@ -1,5 +1,5 @@
 (function() {
-	const IMAGE_FILENAME = "images/invader1.png",
+	const IMAGE_FILENAME = "images/invader.png",
 		WIDTH = 50,
 		HEIGHT = 55,
 		FIRE_INTERVAL = 250,

@@ -3,7 +3,7 @@
 	FPSCounter.prototype.constructor = FPSCounter;
 
 	function FPSCounter(config) {
-		var that = this;
+		let that = this;
 
 		that.__type = "fpscounter";
 		config.isNonPlayable = true;
@@ -16,7 +16,7 @@
 
 	FPSCounter.prototype = {
 		update: function() {
-			var that = this,
+			let that = this,
 				now = new Date(),
 				diff = now.getTime() - that.oldTime.getTime();
 
@@ -30,7 +30,7 @@
 		},
 
 		render: function() {
-			var that = this,
+			let that = this,
 				ctx = that.context;
 
 			ctx.font = "14px Arial";

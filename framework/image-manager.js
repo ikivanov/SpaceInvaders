@@ -31,8 +31,8 @@
 				promise = Promise.all([
 					that.loadImage("images/background.png"),
 					that.loadImage("images/explosion.png"),
-					that.loadImage("images/invader1.png"),
-					that.loadImage("images/invader2.png"),
+					that.loadImage("images/invader.png"),
+					that.loadImage("images/double-weapon-invader.png"),
 					that.loadImage("images/spacecraft.png")
 				]);
 
