@@ -2,12 +2,6 @@
 	function Utils() {
 	}
 
-	Utils.getImage = function(filename) {
-		var image = new Image();
-		image.src = filename;
-		return image;
-	}
-
 	Utils.hasRectangularCollision = function(rect1, rect2) {
 		if (rect1.x < rect2.x + rect2.width &&
 			rect1.x + rect1.width > rect2.x &&

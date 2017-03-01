@@ -1,5 +1,5 @@
 (function() {
-	let utils = SpaceInvadersNamespace.Utils;
+	let imageManager = SpaceInvadersNamespace.ImageManager;
 
 	function Sprite(config) {
 		let that = this;
@@ -14,7 +14,7 @@
 
 		that.image = null;
 		if (config.imageFilename) {
-			that.image = utils.getImage(config.imageFilename);
+			that.image = imageManager.getImage(config.imageFilename);
 		}
 
 		that.parent = null;

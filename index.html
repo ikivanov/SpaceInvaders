@@ -5,6 +5,7 @@
 
 	<script type="text/javascript" src="framework/requestAnimationFrame-pollyfill.js"></script>
 	<script type="text/javascript" src="framework/utils.js"></script>
+	<script type="text/javascript" src="framework/image-manager.js"></script>
 	<script type="text/javascript" src="framework/game.js"></script>
 	<script type="text/javascript" src="framework/sprite.js"></script>
 	<script type="text/javascript" src="framework/label.js"></script>
@@ -25,10 +26,12 @@
 	<script type="text/javascript">
 		window.onload = function() {
 			window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-			let canvas = document.getElementById("game-arena"),
-				game = new SpaceInvadersNamespace.SpaceInvaders({ canvas: canvas });
+			let canvas = document.getElementById("game-arena");
 
-			game.run();
+			SpaceInvadersNamespace.ImageManager.loadImages().then(function() {
+				let game = new SpaceInvadersNamespace.SpaceInvaders({ canvas: canvas });
+				game.run();
+			});
 		}
 	</script>
 </html>
