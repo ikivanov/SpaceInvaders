@@ -1,6 +1,5 @@
 (function() {
-	const IMAGE_FILENAME = "images/Missile-50x46.png",
-		VELOCITY_Y = 600, //pixels per second
+	const VELOCITY_Y = 600,
 		WIDTH = 4,
 		HEIGHT = 10;
 
@@ -12,7 +11,6 @@
 	function Missile(config) {
 		let that = this;
 
-		config.imageFilename = IMAGE_FILENAME;
 		config.width = WIDTH;
 		config.height = HEIGHT;
 
@@ -25,7 +23,7 @@
 			that.velocityY *= -1;
 		}
 
-		that.__type = "Missile";
+		that.__type = SpaceInvadersNamespace.consts.SpriteType.Missile;
 	}
 
 	Missile.prototype.update = function(lastFrameEllapsedTime, keyboard) {

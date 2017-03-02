@@ -1,6 +1,7 @@
 (function() {
 	const
 		SPACECRAFT_POSITION = { x: 275, y: 540 },
+		SPACECRAFT_MISSILE_VELOCITY = -600,
 		HEIGHT = 600,
 		INVADER_FORMATION_TOP_OFFSET = 50,
 		INVADER_FORMATION_LEFT_OFFSET = 50,
@@ -45,10 +46,26 @@
 		that.addChild(that.levelDescriptor);
 	}
 
+	SpaceInvaders.prototype.getGameOverLabel = function() {
+		return new SpaceInvadersNamespace.Label({ x: 260, y: 280,
+													text: "Game Over!",
+													isVisible: false,
+													zIndex: 10000 });
+	}
+
+	SpaceInvaders.prototype.getPauseLabel = function() {
+		return new SpaceInvadersNamespace.Label({ x: 260, y: 280,
+													text: "Paused",
+													isVisible: false,
+													zIndex: 10000 });
+	}
+
 	SpaceInvaders.prototype.cleanUpLevel = function() {
 		let that = this;
 
-		that.sprites = that.sprites.filter(sprite => sprite.__type === "Background" || sprite.__type === "Statistics" || sprite.__type === "fpscounter");
+		that.sprites = that.sprites.filter(sprite => sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Background ||
+										sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Statistics ||
+										sprite.__type === "fpscounter");
 	}
 
 	SpaceInvaders.prototype.loadLevel = function(level) {
@@ -60,7 +77,7 @@
 
 	SpaceInvaders.prototype._removeCompletedExplosions = function() {
 		let that = this,
-			explosionsCompleted = that.sprites.filter(sprite => sprite.__type === "Explosion" && sprite.isCompleted);
+			explosionsCompleted = that.sprites.filter(sprite => sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Explosion && sprite.isCompleted);
 
 		if (explosionsCompleted && explosionsCompleted.length > 0) {
 			for (let i = 0; i < explosionsCompleted.length; i++) {
@@ -89,8 +106,8 @@
 		if (now.getTime() - that.lastEnemyMissileLaunchTime.getTime() > that.currentLevel.invaderFireInterval) {
 			let x = that.spacecraft.x,
 				invadersInSpacecraftRange = that.sprites.filter(sprite =>
-																		(sprite.__type === "Invader" ||
-																		sprite.__type === "DoubleWeaponInvader") &&
+																		(sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Invader ||
+																		sprite.__type === SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader) &&
 																		sprite.x >= x - sprite.width &&
 																		sprite.x <= x + sprite.width);
 
@@ -100,11 +117,11 @@
 
 			let attackingInvader = invadersInSpacecraftRange.reduce((a, b) => a.y < b.y ? b : a);
 			if (attackingInvader) {
-				if (attackingInvader.__type === "Invader") {
-					that.addChild(new SpaceInvadersNamespace.Missile({ type: "enemy", velocityY: INVADER_MISSILE_VELOCITY, x : attackingInvader.x + INVADER_WIDTH / 2, y: attackingInvader.y + INVADER_HEIGHT }));
-				} else if (attackingInvader.__type === "DoubleWeaponInvader") {
-					that.addChild(new SpaceInvadersNamespace.Missile({ type: "enemy", velocityY: INVADER_MISSILE_VELOCITY, x : attackingInvader.x + 3, y: attackingInvader.y + INVADER_HEIGHT}));
-					that.addChild(new SpaceInvadersNamespace.Missile({ type: "enemy", velocityY: INVADER_MISSILE_VELOCITY, x : attackingInvader.x + INVADER_WIDTH - 3, y: attackingInvader.y + INVADER_HEIGHT }));
+				if (attackingInvader.__type === SpaceInvadersNamespace.consts.SpriteType.Invader) {
+					that.addChild(new SpaceInvadersNamespace.Missile({ velocityY: INVADER_MISSILE_VELOCITY, x : attackingInvader.x + INVADER_WIDTH / 2, y: attackingInvader.y + INVADER_HEIGHT }));
+				} else if (attackingInvader.__type === SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader) {
+					that.addChild(new SpaceInvadersNamespace.Missile({ velocityY: INVADER_MISSILE_VELOCITY, x : attackingInvader.x + 3, y: attackingInvader.y + INVADER_HEIGHT}));
+					that.addChild(new SpaceInvadersNamespace.Missile({ velocityY: INVADER_MISSILE_VELOCITY, x : attackingInvader.x + INVADER_WIDTH - 3, y: attackingInvader.y + INVADER_HEIGHT }));
 				}
 
 				that.lastEnemyMissileLaunchTime = new Date();
@@ -129,10 +146,10 @@
 		that.addChild(that.levelDescriptor);
 	},
 
-	SpaceInvaders.prototype.onMissileLaunched = function(type, x, y) {
+	SpaceInvaders.prototype.onMissileLaunched = function(x, y) {
 		let that = this;
 
-		that.addChild(new SpaceInvadersNamespace.Missile({ type, x, y: y - 10 }));
+		that.addChild(new SpaceInvadersNamespace.Missile({ x, y: y - 10, velocityY: SPACECRAFT_MISSILE_VELOCITY }));
 	}
 
 	SpaceInvaders.prototype.onMissileOutOfScreen = function(missile) {
@@ -149,10 +166,10 @@
 
 	SpaceInvaders.prototype.isLevelCompleted = function() {
 		let that = this,
-			sprites = that.sprites.find((sprite) => sprite.__type === "Invader" ||
-														sprite.__type === "DoubleWeaponInvader" ||
-														sprite.__type === "Missile" ||
-														sprite.__type === "Explosion");
+			sprites = that.sprites.find((sprite) => sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Invader ||
+														sprite.__type === SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader ||
+														sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Missile ||
+														sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Explosion);
 
 		if (!sprites) {
 			return true;
@@ -164,18 +181,18 @@
 	SpaceInvaders.prototype.checkGameOver = function() {
 		let that = this;
 
-		sprites = that.sprites.find(sprite => sprite.__type === "Explosion" ||
-												sprite.__type === "Spacecraft" ||
-												sprite.__type === "Missile");
+		sprites = that.sprites.find(sprite => sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Explosion ||
+												sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Spacecraft ||
+												sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Missile);
 
 		if (!sprites) {
 			return true;
 		}
 
-		sprites = that.sprites.find((sprite) => sprite.__type === "Invader" ||
-													sprite.__type === "DoubleWeaponInvader" ||
-													sprite.__type === "Missile" ||
-													sprite.__type === "Explosion");
+		sprites = that.sprites.find((sprite) => sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Invader ||
+													sprite.__type === SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader ||
+													sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Missile ||
+													sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Explosion);
 
 		if (!sprites && that.level === MAX_LEVEL) {
 			return true;

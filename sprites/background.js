@@ -14,7 +14,7 @@
 			isNonPlayable: true
 		});
 
-		that.__type = "Background";
+		that.__type = SpaceInvadersNamespace.consts.SpriteType.Background;
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};

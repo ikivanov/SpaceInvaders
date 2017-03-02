@@ -7,11 +7,11 @@
 	function DoubleWeaponInvader(config) {
 		let that = this;
 
-		config.imageFilename = IMAGE_FILENAME;
+		that.imageFilename = IMAGE_FILENAME;
 		SpaceInvadersNamespace.Invader.call(that, config);
 
-		that.__type = "DoubleWeaponInvader";
 		that.scoreBonus = 20;
+		that.__type = SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader;
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};

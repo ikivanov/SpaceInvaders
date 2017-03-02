@@ -1,5 +1,5 @@
 (function() {
-	const SPEED_X = 300, //pixels per second
+	const SPEED_X = 300,
 		MIN_X = 5,
 		MAX_X = 545,
 		WIDTH = 50,
@@ -23,10 +23,9 @@
 		});
 
 		that.lastFireTime = new Date();
-
-		that.__type = "Spacecraft";
-
 		that.lives = LIVES;
+
+		that.__type = SpaceInvadersNamespace.consts.SpriteType.Spacecraft;
 	}
 
 	Spacecraft.prototype.update = function(lastFrameEllapsedTime, keyboard) {
@@ -37,7 +36,7 @@
 		let that = this,
 			distance = SPEED_X * lastFrameEllapsedTime;
 
-		if (keyboard.keys.ArrowLeft === true) {
+		if (keyboard.keys.ArrowLeft || keyboard.keys.KeyA) {
 			if (that.x - distance < MIN_X) {
 				that.x = MIN_X;
 			} else {
@@ -45,7 +44,7 @@
 			}
 		}
 
-		if (keyboard.keys.ArrowRight === true) {
+		if (keyboard.keys.ArrowRight || keyboard.keys.KeyD) {
 			if (that.x + distance > MAX_X) {
 				that.x = MAX_X;
 			} else {
@@ -55,7 +54,7 @@
 
 		if (keyboard.keys.Space === true && that._canFire()) {
 			let centerX = Math.floor(that.x + WIDTH / 2);
-			that.game.onMissileLaunched("allied", centerX, that.y);
+			that.game.onMissileLaunched(centerX, that.y);
 		}
 	}
 
@@ -63,7 +62,9 @@
 		let that = this,
 			type = sprite.__type;
 
-		if (type === "Missile" || type === "Invader") {
+		if (type === SpaceInvadersNamespace.consts.SpriteType.Missile ||
+			type === SpaceInvadersNamespace.consts.SpriteType.Invader ||
+			type === SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader) {
 			that.lives--;
 
 			if (that.lives === 0) {

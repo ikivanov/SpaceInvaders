@@ -13,7 +13,7 @@
 
 		SpaceInvadersNamespace.Sprite.call(that, config);
 
-		that.__type = "Shield";
+		that.__type = SpaceInvadersNamespace.consts.SpriteType.Shield;
 	}
 
 	Shield.prototype.render = function() {
@@ -31,7 +31,8 @@
 		let that = this,
 			type = sprite.__type;
 
-		if (type === "Missile" || type === "Invader") {
+		if (type === SpaceInvadersNamespace.consts.SpriteType.Missile ||
+			type === SpaceInvadersNamespace.consts.SpriteType.Invader) {
 			that.game.removeChild(that);
 		}
 	}

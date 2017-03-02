@@ -1,4 +1,6 @@
 (function() {
+	const NO_IMAGE_LIST_PROVIDED_MSG = "Provide an image list to load before calling ImageManager.loadImages!";
+
 	function ImageManager() {
 		let that = this;
 
@@ -20,7 +22,7 @@
 							resolve(image);
 						}
 						image.onerror = function(err) {
-							reject({ reason: `${url} does not exist` });
+							reject({ reason: "${url} does not exist" });
 						}
 						image.src = url;
 					}
@@ -34,7 +36,7 @@
 				promises = [];
 
 			if (!imagesToLoad || imagesToLoad.length === 0) {
-				return Promise.reject({ reason: "Provide an image list to load before calling ImageManager.loadImages!" });
+				return Promise.reject({ reason: NO_IMAGE_LIST_PROVIDED_MSG });
 			}
 
 			for (let i = 0; i < imagesToLoad.length; i++) {

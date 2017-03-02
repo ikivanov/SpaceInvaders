@@ -5,22 +5,22 @@
 	function Label(config) {
 		let that = this;
 
-		config.isNonPlayable = true;
 		SpaceInvadersNamespace.Sprite.call(that, config);
 
-		that.__type = "Label";
-		that.text = config.text;
+		that.isNonPlayable = true;
+		that.text = config.text || "";
 		that.color = config.color;
 		that.size = config.size;
+		that.fontFamily = config.fontFamily || "Arial";
+		that.__type = "Label";
 	}
 
 	Label.prototype.render = function() {
 		let that = this,
 			ctx = that.context;
 
-		ctx.font = that.size + "px Arial";
+		ctx.font = `${that.size}px ${that.fontFamily}`;
 		ctx.fillStyle = that.color;
-		ctx.textAlign = "left";
 		ctx.fillText(that.text, that.x, that.y);
 	}
 

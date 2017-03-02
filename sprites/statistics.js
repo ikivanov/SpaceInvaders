@@ -16,7 +16,7 @@
 		that.level = 0;
 		that.scores = 0;
 
-		that.__type = "Statistics";
+		that.__type = SpaceInvadersNamespace.consts.SpriteType.Statistics;
 	}
 
 	Statistics.prototype.update = function(lastFrameEllapsedTime, keyboard) {

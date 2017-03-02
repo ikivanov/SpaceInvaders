@@ -1,6 +1,4 @@
 (function() {
-	const MAX_LEVEL = 4;
-
 	let utils = SpaceInvadersNamespace.Utils;
 
 	function Game(config) {
@@ -8,7 +6,6 @@
 
 		that.canvas = config.canvas;
 		that.context = that.canvas.getContext("2d");
-
 		that.width = that.canvas.width;
 		that.height = that.canvas.height;
 
@@ -29,19 +26,21 @@
 			that.level = 1;
 			that.scores = 0;
 
-			that.keyboard = {
-				keys : {
-					"ArrowLeft": false,
-					"ArrowRight": false,
-					"Space": false
-				}
-			};
+			that.keyboard = { keys : { } };
 
-			that.gameOverLabel = new SpaceInvadersNamespace.Label({ x: 260, y: 280, text: "Game Over!", isVisible: false, zIndex: 10000 });
+			that.gameOverLabel = that.getGameOverLabel();
 			that.addChild(that.gameOverLabel);
 
-			that.pauseLabel = new SpaceInvadersNamespace.Label({ x: 260, y: 280, text: "Paused", isVisible: false, zIndex: 10000 });
+			that.pauseLabel = that.getPauseLabel();
 			that.addChild(that.pauseLabel);
+		},
+
+		getGameOverLabel: function() {
+			return null;
+		},
+
+		getPauseLabel: function() {
+			return null;
 		},
 
 		run: function() {
@@ -80,7 +79,7 @@
 
 			that.isGameOver = that.isPaused = false;
 
-			that.pauseLabel.gameOverLabel = false;
+			that.gameOverLabel.isVisible = false;
 			that.pauseLabel.isVisible = false;
 
 			that.lastFrameTime = Date.now();
@@ -249,20 +248,12 @@
 				return;
 			}
 
-			if (code !== "ArrowLeft" && code !== "ArrowRight" && code != "Space") {
-				return;
-			}
-
 			that.keyboard.keys[code] = true;
 		},
 
 		_onKeyUp: function(e) {
 			let that = this,
 				code = e.code;
-
-			if (code !== "ArrowLeft" && code !== "ArrowRight" && code != "Space") {
-				return;
-			}
 
 			that.keyboard.keys[code] = false;
 		}

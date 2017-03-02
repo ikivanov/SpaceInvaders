@@ -12,13 +12,13 @@
 		config.imageFilename = IMAGE_FILENAME;
 		SpaceInvadersNamespace.Sprite.call(that, config);
 
-		that.__type = "Explosion";
-
 		that.animationFrameSpeed = 32;
 		that.frameIndex = 0;
 		that.frames = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 		that.repeatAnimation = false;
 		that.isCompleted = false;
+
+		that.__type = SpaceInvadersNamespace.consts.SpriteType.Explosion;
 	}
 
 	Explosion.prototype.update = function(lastFrameEllapsedTime, keyboard) {

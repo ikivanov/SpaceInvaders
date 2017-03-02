@@ -22,16 +22,14 @@
 		SpaceInvadersNamespace.Sprite.call(that, config);
 
 		that.initialX = that.x;
-
 		that.velocityX = -SPEED_X;
 		that.velocityY = 0;
 		that.fireInterval = config.fireInterval !== undefined ? config.fireInterval : FIRE_INTERVAL;
-
 		that.lastFireTime = new Date();
-
-		that.__type = "Invader";
 		that.scoreBonus = 10;
 		that.lives = config.lives !== undefined ? config.lives : 1;
+
+		that.__type = SpaceInvadersNamespace.consts.SpriteType.Invader;
 	}
 
 	Invader.prototype.update = function(lastFrameEllapsedTime, keyboard) {
@@ -68,7 +66,7 @@
 		let that = this,
 			type = sprite.__type;
 
-		if (type === "Missile") {
+		if (type === SpaceInvadersNamespace.consts.SpriteType.Missile) {
 			that.lives--;
 
 			if (that.lives === 0) {
@@ -78,18 +76,6 @@
 				that.game.addChild(new SpaceInvadersNamespace.Explosion({ x: that.x, y: that.y }));
 			}
 		}
-	}
-
-	Invader.prototype._canFire = function() {
-		let that = this,
-			now = new Date();
-
-		if (now.getTime() - that.lastFireTime.getTime() > that.fireInterval) {
-			that.lastFireTime = now;
-			return true;
-		}
-
-		return false;
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
