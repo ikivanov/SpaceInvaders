@@ -7,7 +7,7 @@
 	function DoubleWeaponInvader(config) {
 		let that = this;
 
-		that.imageFilename = IMAGE_FILENAME;
+		config.imageFilename = IMAGE_FILENAME;
 		SpaceInvadersNamespace.Invader.call(that, config);
 
 		that.scoreBonus = 20;

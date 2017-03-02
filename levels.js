@@ -140,7 +140,7 @@
 		let that = this;
 
 		let invaderType = Math.round(utils.randomRange(0, 1)),
-			invaderClass = invaderType ? "DoubleWeaponInvader" : "Invader";
+			invaderClass = invaderType ? SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader : SpaceInvadersNamespace.consts.SpriteType.Invader;
 
 		return new SpaceInvadersNamespace[invaderClass]({ x, y, fireInterval: that.fireInterval, lives: that.invaderLives });
 	}

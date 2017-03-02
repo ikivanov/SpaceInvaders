@@ -63,9 +63,7 @@
 	SpaceInvaders.prototype.cleanUpLevel = function() {
 		let that = this;
 
-		that.sprites = that.sprites.filter(sprite => sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Background ||
-										sprite.__type === SpaceInvadersNamespace.consts.SpriteType.Statistics ||
-										sprite.__type === "fpscounter");
+		that.sprites = that.sprites.filter(sprite => sprite.isNonPlayable === true);
 	}
 
 	SpaceInvaders.prototype.loadLevel = function(level) {
