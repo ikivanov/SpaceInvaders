@@ -29,10 +29,12 @@
 		that.init();
 	}
 
-	SpaceInvaders.prototype.init = function() {
-		let that = this;
+	SpaceInvaders.prototype.getSplashScreen = function() {
+		return new SpaceInvadersNamespace.SplashScreen();
+	}
 
-		SpaceInvadersNamespace.Game.prototype.init.call(that);
+	SpaceInvaders.prototype.loadSprites = function() {
+		let that = this;
 
 		that.lastEnemyMissileLaunchTime = new Date();
 
@@ -44,18 +46,18 @@
 		that.levelDescriptorCreated = new Date();
 		that.levelDescriptor = new SpaceInvadersNamespace.Label({ text: `Level ${that.level} is loading... Get ready!`, x: 175, y: 300, color: "red", size: 22 });
 		that.addChild(that.levelDescriptor);
-	}
+	},
 
 	SpaceInvaders.prototype.getGameOverLabel = function() {
-		return new SpaceInvadersNamespace.Label({ x: 260, y: 280,
-													text: "Game Over!",
+		return new SpaceInvadersNamespace.Label({ x: 200, y: 280,
+													text: "Game Over! (Press S to try again)",
 													isVisible: false,
 													zIndex: 10000 });
 	}
 
 	SpaceInvaders.prototype.getPauseLabel = function() {
-		return new SpaceInvadersNamespace.Label({ x: 260, y: 280,
-													text: "Paused",
+		return new SpaceInvadersNamespace.Label({ x: 220, y: 280,
+													text: "Paused (Press S to resume)",
 													isVisible: false,
 													zIndex: 10000 });
 	}

@@ -15,7 +15,8 @@
 
 	Game.prototype = {
 		init: function() {
-			let that = this;
+			let that = this,
+				splashScreen = that.getSplashScreen();
 
 			that.lastFrameTime = Date.now();
 			that.sprites = [];
@@ -28,11 +29,26 @@
 
 			that.keyboard = { keys : { } };
 
+			if (splashScreen) {
+				that.splashScreen = splashScreen;
+				that.addChild(that.splashScreen);
+			} else {
+				that.loadSprites();
+			}
+
 			that.gameOverLabel = that.getGameOverLabel();
 			that.addChild(that.gameOverLabel);
 
 			that.pauseLabel = that.getPauseLabel();
 			that.addChild(that.pauseLabel);
+		},
+
+		getSplashScreen: function() {
+			return null;
+		},
+
+		loadSprites: function() {
+
 		},
 
 		getGameOverLabel: function() {
