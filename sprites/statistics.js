@@ -14,6 +14,7 @@
 			that.level = 0;
 			that.scores = 0;
 
+			that.zIndex = 10;
 			that.__type = SpaceInvadersNamespace.consts.SpriteType.Statistics;
 		}
 

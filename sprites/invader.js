@@ -26,6 +26,7 @@
 			that.scoreBonus = 10;
 			that.lives = config.lives !== undefined ? config.lives : 1;
 
+			that.zIndex = 20;
 			that.__type = SpaceInvadersNamespace.consts.SpriteType.Invader;
 		}
 

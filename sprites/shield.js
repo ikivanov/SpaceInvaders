@@ -11,6 +11,7 @@
 
 			let that = this;
 
+			that.zIndex = 20;
 			that.__type = SpaceInvadersNamespace.consts.SpriteType.Shield;
 		}
 

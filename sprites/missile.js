@@ -21,6 +21,7 @@
 				that.velocityY *= -1;
 			}
 
+			that.zIndex = 15;
 			that.__type = SpaceInvadersNamespace.consts.SpriteType.Missile;
 		}
 

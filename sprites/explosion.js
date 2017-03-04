@@ -15,6 +15,7 @@
 			that.repeatAnimation = false;
 			that.isCompleted = false;
 
+			that.zIndex = 20;
 			that.__type = SpaceInvadersNamespace.consts.SpriteType.Explosion;
 		}
 

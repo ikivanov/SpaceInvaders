@@ -23,6 +23,7 @@
 			that.lastFireTime = new Date();
 			that.lives = LIVES;
 
+			that.zIndex = 20;
 			that.__type = SpaceInvadersNamespace.consts.SpriteType.Spacecraft;
 		}
 
