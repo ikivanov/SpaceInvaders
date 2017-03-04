@@ -1,17 +1,15 @@
 (function() {
 	const IMAGE_FILENAME = "images/double-weapon-invader.png";
 
-	DoubleWeaponInvader.prototype = Object.create(SpaceInvadersNamespace.Invader.prototype);
-	DoubleWeaponInvader.prototype.constructor = DoubleWeaponInvader;
+	class DoubleWeaponInvader extends SpaceInvadersNamespace.Invader {
+		constructor(config) {
+			config.imageFilename = IMAGE_FILENAME;
+			super(config);
 
-	function DoubleWeaponInvader(config) {
-		let that = this;
-
-		config.imageFilename = IMAGE_FILENAME;
-		SpaceInvadersNamespace.Invader.call(that, config);
-
-		that.scoreBonus = 20;
-		that.__type = SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader;
+			let that = this;
+			that.scoreBonus = 20;
+			that.__type = SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader;
+		}
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};

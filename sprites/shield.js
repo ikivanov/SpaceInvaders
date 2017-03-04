@@ -2,38 +2,37 @@
 	const WIDTH = 12,
 		HEIGHT = 12;
 
-	Shield.prototype = Object.create(SpaceInvadersNamespace.Sprite.prototype);
-	Shield.prototype.constructor = Shield;
+	class Shield extends SpaceInvadersNamespace.Sprite{
+		constructor(config) {
+			config.width = WIDTH;
+			config.height = HEIGHT;
 
-	function Shield(config) {
-		let that = this;
+			super(config);
 
-		config.width = WIDTH;
-		config.height = HEIGHT;
+			let that = this;
 
-		SpaceInvadersNamespace.Sprite.call(that, config);
+			that.__type = SpaceInvadersNamespace.consts.SpriteType.Shield;
+		}
 
-		that.__type = SpaceInvadersNamespace.consts.SpriteType.Shield;
-	}
+		render() {
+			let that = this,
+				ctx = that.context;
 
-	Shield.prototype.render = function() {
-		let that = this,
-			ctx = that.context;
+			ctx.strokeStyle = "gray";
+			ctx.fillStyle = "red";
 
-		ctx.strokeStyle = "gray";
-		ctx.fillStyle = "red";
+			ctx.strokeRect(that.x, that.y, WIDTH, HEIGHT);
+			ctx.fillRect(that.x, that.y, WIDTH, HEIGHT);
+		}
 
-		ctx.strokeRect(that.x, that.y, WIDTH, HEIGHT);
-		ctx.fillRect(that.x, that.y, WIDTH, HEIGHT);
-	}
+		onCollidedWith(sprite) {
+			let that = this,
+				type = sprite.__type;
 
-	Shield.prototype.onCollidedWith = function(sprite) {
-		let that = this,
-			type = sprite.__type;
-
-		if (type === SpaceInvadersNamespace.consts.SpriteType.Missile ||
-			type === SpaceInvadersNamespace.consts.SpriteType.Invader) {
-			that.game.removeChild(that);
+			if (type === SpaceInvadersNamespace.consts.SpriteType.Missile ||
+				type === SpaceInvadersNamespace.consts.SpriteType.Invader) {
+				that.game.removeChild(that);
+			}
 		}
 	}
 

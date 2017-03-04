@@ -1,20 +1,18 @@
 (function() {
 	const IMAGE_FILENAME = "images/background.png";
 
-	Background.prototype = Object.create(SpaceInvadersNamespace.Sprite.prototype);
-	Background.prototype.constructor = Background;
+	class Background extends SpaceInvadersNamespace.Sprite {
+		constructor() {
+			super({
+				x: 0,
+				y: 0,
+				imageFilename: IMAGE_FILENAME,
+				isNonPlayable: true
+			});
 
-	function Background() {
-		let that = this;
-
-		SpaceInvadersNamespace.Sprite.call(that, {
-			x: 0,
-			y: 0,
-			imageFilename: IMAGE_FILENAME,
-			isNonPlayable: true
-		});
-
-		that.__type = SpaceInvadersNamespace.consts.SpriteType.Background;
+			let that = this;
+			that.__type = SpaceInvadersNamespace.consts.SpriteType.Background;
+		}
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};

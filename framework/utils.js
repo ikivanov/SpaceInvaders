@@ -1,21 +1,20 @@
 (function() {
-	function Utils() {
-	}
+	class Utils {
+		static hasRectangularCollision(rect1, rect2) {
+			if (rect1.x < rect2.x + rect2.width &&
+				rect1.x + rect1.width > rect2.x &&
+				rect1.y < rect2.y + rect2.height &&
+				rect1.height + rect1.y > rect2.y) {
+				return true;
+			}
 
-	Utils.hasRectangularCollision = function(rect1, rect2) {
-		if (rect1.x < rect2.x + rect2.width &&
-			rect1.x + rect1.width > rect2.x &&
-			rect1.y < rect2.y + rect2.height &&
-			rect1.height + rect1.y > rect2.y) {
-			return true;
+			return false;
 		}
 
-		return false;
-	}
-
-	Utils.randomRange = function(min, max)
-	{
-		return ((Math.random() * (max - min)) + min);
+		static randomRange(min, max)
+		{
+			return ((Math.random() * (max - min)) + min);
+		}
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};

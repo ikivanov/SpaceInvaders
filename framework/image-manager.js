@@ -1,14 +1,14 @@
 (function() {
 	const NO_IMAGE_LIST_PROVIDED_MSG = "Provide an image list to load before calling ImageManager.loadImages!";
 
-	function ImageManager() {
-		let that = this;
+	class ImageManager {
+		constructor() {
+			let that = this;
 
-		that.cachedImages = {};
-	}
+			that.cachedImages = {};
+		}
 
-	ImageManager.prototype = {
-		loadImage: function(url) {
+		loadImage(url) {
 			let that = this,
 				promise = new Promise(function(resolve, reject) {
 					let image = that.cachedImages[url];
@@ -29,9 +29,9 @@
 				});
 
 			return promise;
-		},
+		}
 
-		loadImages: function(imagesToLoad) {
+		loadImages(imagesToLoad) {
 			let that = this,
 				promises = [];
 
@@ -44,14 +44,14 @@
 			}
 
 			return Promise.all(promises);
-		},
+		}
 
-		getImage: function(url) {
+		getImage(url) {
 			let that = this;
 
 			return that.cachedImages[url];
 		}
-	};
+	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
 	SpaceInvadersNamespace.ImageManager = new ImageManager();

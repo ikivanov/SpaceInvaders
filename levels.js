@@ -3,60 +3,60 @@
 
 	let utils = SpaceInvadersNamespace.Utils;
 
-	function BaseLevel(config) {
-		let that = this;
+	class BaseLevel {
+		constructor(config) {
+			let that = this;
 
-		that.game = config.game;
+			that.game = config.game;
 
-		that.initialSpacecraftX = 275;
-		that.initialSpacecraftY = 540;
+			that.initialSpacecraftX = 275;
+			that.initialSpacecraftY = 540;
 
-		that.firstShieldFormationOffsetX = 60;
-		that.lastShieldFormationOffsetX = 420;
-		that.shieldFormationsPadding = 180;
-		that.shieldFormationsOffsetY = 475;
-		that.shieldRows = 3;
-		that.shiedlCols = 10;
-		that.shieldBlockLength = 12;
+			that.firstShieldFormationOffsetX = 60;
+			that.lastShieldFormationOffsetX = 420;
+			that.shieldFormationsPadding = 180;
+			that.shieldFormationsOffsetY = 475;
+			that.shieldRows = 3;
+			that.shiedlCols = 10;
+			that.shieldBlockLength = 12;
 
-		that.invadersRows = 3;
-		that.invadersCols = 8;
-		that.invaderWidth = 50;
-		that.invaderHeight = 55;
-		that.invaderFormationOffsetX = 50;
-		that.invaderFormationOffsetY = 50;
-		that.invaderHorizontalSpacing = 15;
-		that.invaderVerticalSpacing = 12;
-		that.invaderFireInterval = 1000;
-		that.invaderLives = 1;
-	}
+			that.invadersRows = 3;
+			that.invadersCols = 8;
+			that.invaderWidth = 50;
+			that.invaderHeight = 55;
+			that.invaderFormationOffsetX = 50;
+			that.invaderFormationOffsetY = 50;
+			that.invaderHorizontalSpacing = 15;
+			that.invaderVerticalSpacing = 12;
+			that.invaderFireInterval = 1000;
+			that.invaderLives = 1;
+		}
 
-	BaseLevel.prototype = {
-		load: function() {
+		load() {
 			let that = this;
 
 			that.createInvadersFormation();
 			that.createShieldFormations();
 			that.createSpacecraft();
-		},
+		}
 
-		createSpacecraft: function() {
+		createSpacecraft() {
 			let that = this,
 				spacecraft = new SpaceInvadersNamespace.Spacecraft({ x: that.initialSpacecraftX, y: that.initialSpacecraftY });
 
 			that.game.addChild(spacecraft);
 			that.game.spacecraft = spacecraft;
-		},
+		}
 
-		createShieldFormations: function() {
+		createShieldFormations() {
 			let that = this;
 
 			for (let x = that.firstShieldFormationOffsetX; x <= that.lastShieldFormationOffsetX; x += that.shieldFormationsPadding) {
 				that.createShieldFormation(x, that.shieldFormationsOffsetY);
 			}
-		},
+		}
 
-		createShieldFormation: function(formationX, formationY) {
+		createShieldFormation(formationX, formationY) {
 			let that = this;
 
 			for (let i = 0; i < that.shieldRows; i++) {
@@ -67,9 +67,9 @@
 					that.game.addChild( new SpaceInvadersNamespace.Shield({ x, y }) );
 				}
 			}
-		},
+		}
 
-		createInvadersFormation: function() {
+		createInvadersFormation() {
 			let that = this,
 				fireInterval = that.invaderFireInterval;
 
@@ -82,101 +82,91 @@
 					that.game.addChild(invader);
 				}
 			}
-		},
+		}
 
-		createInvader: function(x, y) {
+		createInvader(x, y) {
 			let that = this;
 
 			return new SpaceInvadersNamespace.Invader({ x, y, fireInterval: that.fireInterval, lives: that.invaderLives })
 		}
 	}
 
-	Level1.prototype = Object.create(BaseLevel.prototype);
-	Level1.prototype.constructor = Level1;
-
-	function Level1 (config) {
-		let that = this;
-
-		BaseLevel.call(that, config);
+	class Level1 extends BaseLevel {
 	}
 
-	Level2.prototype = Object.create(BaseLevel.prototype);
-	Level2.prototype.constructor = Level2;
+	class Level2 extends BaseLevel {
+		constructor(config) {
+			super(config);
 
-	function Level2 (config) {
-		let that = this;
+			let that = this;
 
-		BaseLevel.call(that, config);
+			that.initialSpacecraftX = 185;
+			that.initialSpacecraftY = 540;
+			that.shieldRows = 2;
+			that.shiedlCols = 9;
 
-		that.initialSpacecraftX = 185;
-		that.initialSpacecraftY = 540;
-		that.shieldRows = 2;
-		that.shiedlCols = 9;
-
-		that.invadersRows = 4;
-		that.invaderFireInterval = 750;
-		that.invaderLives = 2;
+			that.invadersRows = 4;
+			that.invaderFireInterval = 750;
+			that.invaderLives = 2;
+		}
 	}
 
-	Level3.prototype = Object.create(BaseLevel.prototype);
-	Level3.prototype.constructor = Level3;
+	class Level3 extends BaseLevel {
+		constructor(config) {
+			super(config);
 
-	function Level3 (config) {
-		let that = this;
+			let that = this;
 
-		BaseLevel.call(that, config);
+			that.initialSpacecraftX = 185;
+			that.initialSpacecraftY = 540;
+			that.shieldRows = 1;
+			that.shiedlCols = 8;
 
-		that.initialSpacecraftX = 185;
-		that.initialSpacecraftY = 540;
-		that.shieldRows = 1;
-		that.shiedlCols = 8;
-
-		that.invadersRows = 5;
-		that.invaderFireInterval = 500;
-		that.invaderLives = 3;
-	}
-
-	Level3.prototype.createInvader = function(x, y) {
-		let that = this;
-
-		let invaderType = Math.round(utils.randomRange(0, 1)),
-			invaderClass = invaderType ? SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader : SpaceInvadersNamespace.consts.SpriteType.Invader;
-
-		return new SpaceInvadersNamespace[invaderClass]({ x, y, fireInterval: that.fireInterval, lives: that.invaderLives });
-	}
-
-	Level4.prototype = Object.create(BaseLevel.prototype);
-	Level4.prototype.constructor = Level3;
-
-	function Level4 (config) {
-		let that = this;
-
-		BaseLevel.call(that, config);
-
-		that.initialSpacecraftX = 185;
-		that.initialSpacecraftY = 540;
-		that.shieldRows = 0;
-
-		that.invadersRows = 5;
-		that.invaderFireInterval = 500;
-		that.invaderLives = 4;
-	}
-
-	Level4.prototype.createInvader = function(x, y) {
-		let that = this;
-
-		return new SpaceInvadersNamespace.DoubleWeaponInvader({ x, y, fireInterval: that.fireInterval, lives: that.invaderLives })
-	}
-
-	function LevelFactory() {
-	}
-
-	LevelFactory.create = function(level, config) {
-		if (level < 1 || level > MAX_LEVEL) {
-			throw new Error("Invalid level!");
+			that.invadersRows = 5;
+			that.invaderFireInterval = 500;
+			that.invaderLives = 3;
 		}
 
-		return new SpaceInvadersNamespace[`Level${level}`](config);
+		createInvader(x, y) {
+			let that = this;
+
+			let invaderType = Math.round(utils.randomRange(0, 1)),
+				invaderClass = invaderType ? SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader : SpaceInvadersNamespace.consts.SpriteType.Invader;
+
+			return new SpaceInvadersNamespace[invaderClass]({ x, y, fireInterval: that.fireInterval, lives: that.invaderLives });
+		}
+	}
+
+	class Level4 extends BaseLevel {
+		constructor(config) {
+			super(config);
+
+			let that = this;
+
+			that.initialSpacecraftX = 185;
+			that.initialSpacecraftY = 540;
+			that.shieldRows = 0;
+
+			that.invadersRows = 5;
+			that.invaderFireInterval = 500;
+			that.invaderLives = 4;
+		}
+
+		createInvader(x, y) {
+			let that = this;
+
+			return new SpaceInvadersNamespace.DoubleWeaponInvader({ x, y, fireInterval: that.fireInterval, lives: that.invaderLives })
+		}
+	}
+
+	class LevelFactory {
+		static create(level, config) {
+			if (level < 1 || level > MAX_LEVEL) {
+				throw new Error("Invalid level!");
+			}
+
+			return new SpaceInvadersNamespace[`Level${level}`](config);
+		}
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};

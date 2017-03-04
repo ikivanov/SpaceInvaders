@@ -3,46 +3,44 @@
 		WIDTH = 39,
 		HEIGHT = 39;
 
-	Explosion.prototype = Object.create(SpaceInvadersNamespace.Sprite.prototype);
-	Explosion.prototype.constructor = Explosion;
+	class Explosion extends SpaceInvadersNamespace.Sprite {
+		constructor(config) {
+			config.imageFilename = IMAGE_FILENAME;
+			super(config);
 
-	function Explosion(config) {
-		let that = this;
+			let that = this;
+			that.animationFrameSpeed = 32;
+			that.frameIndex = 0;
+			that.frames = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+			that.repeatAnimation = false;
+			that.isCompleted = false;
 
-		config.imageFilename = IMAGE_FILENAME;
-		SpaceInvadersNamespace.Sprite.call(that, config);
-
-		that.animationFrameSpeed = 32;
-		that.frameIndex = 0;
-		that.frames = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-		that.repeatAnimation = false;
-		that.isCompleted = false;
-
-		that.__type = SpaceInvadersNamespace.consts.SpriteType.Explosion;
-	}
-
-	Explosion.prototype.update = function(lastFrameEllapsedTime, keyboard) {
-		let that = this;
-
-		that.frameIndex += that.animationFrameSpeed * lastFrameEllapsedTime;
-	}
-
-	Explosion.prototype.render = function() {
-		let that = this,
-			ctx = that.context,
-			max = that.frames.length,
-			idx = Math.floor(that.frameIndex),
-			frame = that.frames[idx % max],
-			imageOffsetX = frame * WIDTH;
-			imageOffsetY = 0;
-
-		if(!that.repeatAnimation && idx >= max) {
-			that.isCompleted = true;
-			return;
+			that.__type = SpaceInvadersNamespace.consts.SpriteType.Explosion;
 		}
 
-		if (that.image) {
-			ctx.drawImage(that.image, imageOffsetX, imageOffsetY, WIDTH, HEIGHT, that.x, that.y, WIDTH, HEIGHT);
+		update(lastFrameEllapsedTime, keyboard) {
+			let that = this;
+
+			that.frameIndex += that.animationFrameSpeed * lastFrameEllapsedTime;
+		}
+
+		render() {
+			let that = this,
+				ctx = that.context,
+				max = that.frames.length,
+				idx = Math.floor(that.frameIndex),
+				frame = that.frames[idx % max],
+				imageOffsetX = frame * WIDTH,
+				imageOffsetY = 0;
+
+			if(!that.repeatAnimation && idx >= max) {
+				that.isCompleted = true;
+				return;
+			}
+
+			if (that.image) {
+				ctx.drawImage(that.image, imageOffsetX, imageOffsetY, WIDTH, HEIGHT, that.x, that.y, WIDTH, HEIGHT);
+			}
 		}
 	}
 

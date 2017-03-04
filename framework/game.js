@@ -1,20 +1,20 @@
 (function() {
 	let utils = SpaceInvadersNamespace.Utils;
 
-	function Game(config) {
-		let that = this;
+	class Game {
+		constructor(config) {
+			let that = this;
 
-		that.canvas = config.canvas;
-		that.context = that.canvas.getContext("2d");
-		that.width = that.canvas.width;
-		that.height = that.canvas.height;
+			that.canvas = config.canvas;
+			that.context = that.canvas.getContext("2d");
+			that.width = that.canvas.width;
+			that.height = that.canvas.height;
 
-		document.addEventListener("keydown", that._onKeyDown.bind(that));
-		document.addEventListener("keyup", that._onKeyUp.bind(that));
-	}
+			document.addEventListener("keydown", that._onKeyDown.bind(that));
+			document.addEventListener("keyup", that._onKeyUp.bind(that));
+		}
 
-	Game.prototype = {
-		init: function() {
+		init() {
 			let that = this,
 				splashScreen = that.getSplashScreen();
 
@@ -41,25 +41,24 @@
 
 			that.pauseLabel = that.getPauseLabel();
 			that.addChild(that.pauseLabel);
-		},
+		}
 
-		getSplashScreen: function() {
+		getSplashScreen() {
 			return null;
-		},
+		}
 
-		loadSprites: function() {
+		loadSprites() {
+		}
 
-		},
-
-		getGameOverLabel: function() {
+		getGameOverLabel() {
 			return null;
-		},
+		}
 
-		getPauseLabel: function() {
+		getPauseLabel() {
 			return null;
-		},
+		}
 
-		run: function() {
+		run() {
 			let that = this,
 				now = Date.now(),
 				lastFrameEllapsedTime = (now - that.lastFrameTime) / 1000.0;
@@ -80,9 +79,9 @@
 			that.lastFrameTime = Date.now();
 
 			requestAnimationFrame(that.run.bind(that));
-		},
+		}
 
-		start: function() {
+		start() {
 			let that = this;
 
 			if (!that.isGameOver && !that.isPaused) {
@@ -101,24 +100,24 @@
 			that.lastFrameTime = Date.now();
 
 			that.run();
-		},
+		}
 
-		pause: function() {
+		pause() {
 			let that = this;
 
 			that.pauseLabel.isVisible = true;
 			that.isPaused = true;
-		},
+		}
 
-		gameOver: function() {
+		gameOver() {
 			let that = this;
 
 			that.currentLevel = null;
 			that.gameOverLabel.isVisible = true;
 			that.isGameOver = true;
-		},
+		}
 
-		detectCollisions: function() {
+		detectCollisions() {
 			let that = this;
 
 			for (let i = 0; i < that.sprites.length; i++) {
@@ -143,29 +142,29 @@
 					}
 				}
 			}
-		},
+		}
 
-		isLevelCompleted: function() {
+		isLevelCompleted() {
 			return false;
-		},
+		}
 
-		cleanUpLevel: function() {
-		},
+		cleanUpLevel() {
+		}
 
-		loadLevel: function() {
-		},
+		loadLevel() {
+		}
 
-		onLevelCompleted: function() {
-		},
+		onLevelCompleted() {
+		}
 
-		checkGameOver: function() {
+		checkGameOver() {
 			return false;
-		},
+		}
 
-		onCollisionDetected: function(sprite1, sprite2) {
-		},
+		onCollisionDetected(sprite1, sprite2) {
+		}
 
-		update: function(lastFrameEllapsedTime, keyboard) {
+		update(lastFrameEllapsedTime, keyboard) {
 			let that = this;
 
 			for (let i = 0; i < that.sprites.length; i++) {
@@ -187,12 +186,12 @@
 					that.onLevelCompleted();
 				}
 			}
-		},
+		}
 
-		onAfterUpdate: function() {
-		},
+		onAfterUpdate() {
+		}
 
-		render: function() {
+		render() {
 			let that = this,
 				ctx = that.context;
 
@@ -207,9 +206,9 @@
 
 				that.sprites[i].render();
 			}
-		},
+		}
 
-		addChild: function(sprite) {
+		addChild(sprite) {
 			if (!sprite) {
 				return;
 			}
@@ -221,9 +220,9 @@
 			sprite.game = that;
 
 			that.sprites.sort((a, b) => a.zIndex - b.zIndex);
-		},
+		}
 
-		addChildren: function(sprites) {
+		addChildren(sprites) {
 			if (!sprites || !sprites.length) {
 				return;
 			}
@@ -233,9 +232,9 @@
 			for (let i = 0; i < sprites.length; i++) {
 				that.addChild(sprites[i]);
 			}
-		},
+		}
 
-		removeChild: function(sprite) {
+		removeChild(sprite) {
 			if (!sprite) {
 				return;
 			}
@@ -246,9 +245,9 @@
 			if (index !== -1) {
 				that.sprites.splice(index, 1);
 			}
-		},
+		}
 
-		_onKeyDown: function(e) {
+		_onKeyDown(e) {
 			let that = this,
 				code = e.code;
 
@@ -265,15 +264,14 @@
 			}
 
 			that.keyboard.keys[code] = true;
-		},
+		}
 
-		_onKeyUp: function(e) {
+		_onKeyUp(e) {
 			let that = this,
 				code = e.code;
 
 			that.keyboard.keys[code] = false;
 		}
-
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};

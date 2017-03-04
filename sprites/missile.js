@@ -5,50 +5,49 @@
 
 	let utils = SpaceInvadersNamespace.Utils;
 
-	Missile.prototype = Object.create(SpaceInvadersNamespace.Sprite.prototype);
-	Missile.prototype.constructor = Missile;
+	class Missile extends SpaceInvadersNamespace.Sprite {
+		constructor(config) {
+			config.width = WIDTH;
+			config.height = HEIGHT;
 
-	function Missile(config) {
-		let that = this;
+			super(config);
 
-		config.width = WIDTH;
-		config.height = HEIGHT;
+			let that = this;
 
-		SpaceInvadersNamespace.Sprite.call(that, config);
+			that.type = config.type;
+			that.velocityY = config.velocityY !== undefined ? config.velocityY : VELOCITY_Y;
 
-		that.type = config.type;
-		that.velocityY = config.velocityY !== undefined ? config.velocityY : VELOCITY_Y;
+			if (that.type === "allied") {
+				that.velocityY *= -1;
+			}
 
-		if (that.type === "allied") {
-			that.velocityY *= -1;
+			that.__type = SpaceInvadersNamespace.consts.SpriteType.Missile;
 		}
 
-		that.__type = SpaceInvadersNamespace.consts.SpriteType.Missile;
-	}
+		update(lastFrameEllapsedTime, keyboard) {
+			let that = this;
 
-	Missile.prototype.update = function(lastFrameEllapsedTime, keyboard) {
-		let that = this;
+			super.update(lastFrameEllapsedTime, keyboard);
 
-		SpaceInvadersNamespace.Sprite.prototype.update.call(that, lastFrameEllapsedTime, keyboard);
-
-		if (that.x <= 0 || that.x + that.width >= that.game.width ||
-			that.y <= 0 || that.y + that.height > that.game.height) {
-			that.game.onMissileOutOfScreen(that);
+			if (that.x <= 0 || that.x + that.width >= that.game.width ||
+				that.y <= 0 || that.y + that.height > that.game.height) {
+				that.game.onMissileOutOfScreen(that);
+			}
 		}
-	}
 
-	Missile.prototype.render = function() {
-		let that = this,
-			ctx = that.context;
+		render() {
+			let that = this,
+				ctx = that.context;
 
-		ctx.fillStyle = "yellow";
-		ctx.fillRect(that.x, that.y, that.width, that.height);
-	}
+			ctx.fillStyle = "yellow";
+			ctx.fillRect(that.x, that.y, that.width, that.height);
+		}
 
-	Missile.prototype.onCollidedWith = function(sprite) {
-		let that = this;
+		onCollidedWith(sprite) {
+			let that = this;
 
-		that.game.removeChild(that);
+			that.game.removeChild(that);
+		}
 	}
 
 	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
