@@ -1,7 +1,6 @@
-(function() {
+define(["../framework/sprite", "../consts"], function(Sprite, consts) {
 	const IMAGE_FILENAME = "images/background.png";
-
-	class Background extends SpaceInvadersNamespace.Sprite {
+	class Background extends Sprite {
 		constructor() {
 			super({
 				x: 0,
@@ -11,10 +10,9 @@
 			});
 
 			let that = this;
-			that.__type = SpaceInvadersNamespace.consts.SpriteType.Background;
+			that.__type = consts.SpriteType.Background;
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.Background = Background;
-})();
+	return Background;
+});

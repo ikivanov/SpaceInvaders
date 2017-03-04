@@ -1,4 +1,4 @@
-(function() {
+define(["../framework/sprite", "../consts", "../sprites/explosion"], function(Sprite, consts, Explosion) {
 	const SPEED_X = 300,
 		MIN_X = 5,
 		MAX_X = 545,
@@ -8,7 +8,7 @@
 		IMAGE_FILENAME = "images/spacecraft.png",
 		LIVES = 3;
 
-	class Spacecraft extends SpaceInvadersNamespace.Sprite{
+	class Spacecraft extends Sprite {
 		constructor(config) {
 			super({
 				x: config.x,
@@ -24,7 +24,7 @@
 			that.lives = LIVES;
 
 			that.zIndex = 20;
-			that.__type = SpaceInvadersNamespace.consts.SpriteType.Spacecraft;
+			that.__type = consts.SpriteType.Spacecraft;
 		}
 
 		update(lastFrameEllapsedTime, keyboard) {
@@ -61,15 +61,15 @@
 			let that = this,
 				type = sprite.__type;
 
-			if (type === SpaceInvadersNamespace.consts.SpriteType.Missile ||
-				type === SpaceInvadersNamespace.consts.SpriteType.Invader ||
-				type === SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader) {
+			if (type === consts.SpriteType.Missile ||
+				type === consts.SpriteType.Invader ||
+				type === consts.SpriteType.DoubleWeaponInvader) {
 				that.lives--;
 
 				if (that.lives === 0) {
 					that.game.removeSpacecraft(that);
 
-					that.game.addChild(new SpaceInvadersNamespace.Explosion({ x: that.x, y: that.y }));
+					that.game.addChild(new Explosion({ x: that.x, y: that.y }));
 				}
 			}
 		}
@@ -87,6 +87,5 @@
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.Spacecraft = Spacecraft;
-})();
+	return Spacecraft;
+});

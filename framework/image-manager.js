@@ -1,4 +1,4 @@
-(function() {
+define([""], function() {
 	const NO_IMAGE_LIST_PROVIDED_MSG = "Provide an image list to load before calling ImageManager.loadImages!";
 
 	class ImageManager {
@@ -53,6 +53,5 @@
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.ImageManager = new ImageManager();
-})();
+	return new ImageManager();
+});

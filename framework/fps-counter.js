@@ -1,7 +1,7 @@
-(function() {
+define(["framework/label"], function(Label) {
 	const FPS_CALCULATION_TIME_INTERVAL = 1000;
 
-	class FPSCounter extends SpaceInvadersNamespace.Label {
+	class FPSCounter extends Label {
 		constructor(config) {
 			super(config);
 
@@ -32,6 +32,5 @@
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.FPSCounter = FPSCounter;
-})();
+	return FPSCounter;
+});

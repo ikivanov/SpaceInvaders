@@ -1,4 +1,4 @@
-(function() {
+define([], function() {
 	class Utils {
 		static hasRectangularCollision(rect1, rect2) {
 			if (rect1.x < rect2.x + rect2.width &&
@@ -17,6 +17,5 @@
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.Utils = Utils;
-})();
+	return Utils;
+});

@@ -1,9 +1,9 @@
-(function() {
+define(["../framework/sprite", "../consts"], function(Sprite, consts) {
 	const IMAGE_FILENAME = "images/explosion.png",
 		WIDTH = 39,
 		HEIGHT = 39;
 
-	class Explosion extends SpaceInvadersNamespace.Sprite {
+	class Explosion extends Sprite {
 		constructor(config) {
 			config.imageFilename = IMAGE_FILENAME;
 			super(config);
@@ -16,7 +16,7 @@
 			that.isCompleted = false;
 
 			that.zIndex = 20;
-			that.__type = SpaceInvadersNamespace.consts.SpriteType.Explosion;
+			that.__type = consts.SpriteType.Explosion;
 		}
 
 		update(lastFrameEllapsedTime, keyboard) {
@@ -45,6 +45,5 @@
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.Explosion = Explosion;
-})();
+	return Explosion;
+});

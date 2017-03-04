@@ -1,17 +1,16 @@
-(function() {
+define(["../sprites/invader", "../consts"], function(Invader, consts) {
 	const IMAGE_FILENAME = "images/double-weapon-invader.png";
 
-	class DoubleWeaponInvader extends SpaceInvadersNamespace.Invader {
+	class DoubleWeaponInvader extends Invader {
 		constructor(config) {
 			config.imageFilename = IMAGE_FILENAME;
 			super(config);
 
 			let that = this;
 			that.scoreBonus = 20;
-			that.__type = SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader;
+			that.__type = consts.SpriteType.DoubleWeaponInvader;
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.DoubleWeaponInvader = DoubleWeaponInvader;
-})();
+	return DoubleWeaponInvader;
+});

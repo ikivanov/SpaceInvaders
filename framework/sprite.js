@@ -1,6 +1,4 @@
-(function() {
-	let imageManager = SpaceInvadersNamespace.ImageManager;
-
+define(["framework/image-manager"], function(ImageManager) {
 	class Sprite {
 		constructor(config) {
 			let that = this;
@@ -15,7 +13,7 @@
 
 			that.image = null;
 			if (config.imageFilename) {
-				that.image = imageManager.getImage(config.imageFilename);
+				that.image = ImageManager.getImage(config.imageFilename);
 			}
 
 			that.parent = null;
@@ -56,6 +54,5 @@
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.Sprite = Sprite;
-})();
+	return Sprite;
+});

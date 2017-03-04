@@ -1,8 +1,8 @@
-(function() {
+define(["../framework/sprite", "../consts"], function(Sprite, consts) {
 	const WIDTH = 12,
 		HEIGHT = 12;
 
-	class Shield extends SpaceInvadersNamespace.Sprite{
+	class Shield extends Sprite{
 		constructor(config) {
 			config.width = WIDTH;
 			config.height = HEIGHT;
@@ -12,7 +12,7 @@
 			let that = this;
 
 			that.zIndex = 20;
-			that.__type = SpaceInvadersNamespace.consts.SpriteType.Shield;
+			that.__type = consts.SpriteType.Shield;
 		}
 
 		render() {
@@ -30,13 +30,12 @@
 			let that = this,
 				type = sprite.__type;
 
-			if (type === SpaceInvadersNamespace.consts.SpriteType.Missile ||
-				type === SpaceInvadersNamespace.consts.SpriteType.Invader) {
+			if (type === consts.SpriteType.Missile ||
+				type === consts.SpriteType.Invader) {
 				that.game.removeChild(that);
 			}
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.Shield = Shield;
-})();
+	return Shield;
+});

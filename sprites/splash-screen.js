@@ -1,10 +1,8 @@
-(function() {
+define(["../framework/image-manager", "../framework/sprite"], function(ImageManager, Sprite) {
 	const IMAGE_FILENAME = "images/background.png",
 		LOGO_FILENAME = "images/logo.png";
 
-	let imageManager = SpaceInvadersNamespace.ImageManager;
-
-	class SplashScreen extends SpaceInvadersNamespace.Sprite {
+	class SplashScreen extends Sprite {
 		constructor(config) {
 			super({
 				x: 0,
@@ -15,7 +13,7 @@
 
 			let that = this;
 
-			this.logo = imageManager.getImage(LOGO_FILENAME);
+			this.logo = ImageManager.getImage(LOGO_FILENAME);
 
 			this.continueTextVisible = true;
 			this.lastTime = Date.now();
@@ -44,7 +42,7 @@
 			let that = this,
 				ctx = that.context;
 
-			SpaceInvadersNamespace.Sprite.prototype.render.call(that);
+			super.render();
 
 			ctx.font = "48px Arial";
 			ctx.fillStyle = "red";
@@ -75,6 +73,5 @@
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.SplashScreen = SplashScreen;
-})();
+	return SplashScreen;
+});

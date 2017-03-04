@@ -1,11 +1,9 @@
-(function() {
+define(["../framework/sprite", "../consts"], function(Sprite, consts) {
 	const VELOCITY_Y = 600,
 		WIDTH = 4,
 		HEIGHT = 10;
 
-	let utils = SpaceInvadersNamespace.Utils;
-
-	class Missile extends SpaceInvadersNamespace.Sprite {
+	class Missile extends Sprite {
 		constructor(config) {
 			config.width = WIDTH;
 			config.height = HEIGHT;
@@ -22,7 +20,7 @@
 			}
 
 			that.zIndex = 15;
-			that.__type = SpaceInvadersNamespace.consts.SpriteType.Missile;
+			that.__type = consts.SpriteType.Missile;
 		}
 
 		update(lastFrameEllapsedTime, keyboard) {
@@ -51,6 +49,5 @@
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.Missile = Missile;
-})();
+	return Missile;
+});

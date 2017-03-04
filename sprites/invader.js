@@ -1,4 +1,4 @@
-(function() {
+define(["../framework/sprite", "../consts", "../sprites/explosion"], function(Sprite, consts, Explosion) {
 	const IMAGE_FILENAME = "images/invader.png",
 		WIDTH = 50,
 		HEIGHT = 55,
@@ -7,7 +7,7 @@
 		SPEED_X = 60,
 		SPEED_Y = 150;
 
-	class Invader extends SpaceInvadersNamespace.Sprite {
+	class Invader extends Sprite {
 		constructor(config) {
 			if (!config.imageFilename) {
 				config.imageFilename = IMAGE_FILENAME;
@@ -27,7 +27,7 @@
 			that.lives = config.lives !== undefined ? config.lives : 1;
 
 			that.zIndex = 20;
-			that.__type = SpaceInvadersNamespace.consts.SpriteType.Invader;
+			that.__type = consts.SpriteType.Invader;
 		}
 
 		update (lastFrameEllapsedTime, keyboard) {
@@ -64,19 +64,18 @@
 			let that = this,
 				type = sprite.__type;
 
-			if (type === SpaceInvadersNamespace.consts.SpriteType.Missile) {
+			if (type === consts.SpriteType.Missile) {
 				that.lives--;
 
 				if (that.lives === 0) {
 					that.game.updateScores(that);
 					that.game.removeChild(that);
 
-					that.game.addChild(new SpaceInvadersNamespace.Explosion({ x: that.x, y: that.y }));
+					that.game.addChild(new Explosion({ x: that.x, y: that.y }));
 				}
 			}
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.Invader = Invader;
-})();
+	return Invader;
+});

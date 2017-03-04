@@ -1,7 +1,6 @@
-(function() {
+define(["framework/utils", "sprites/spacecraft", "sprites/shield", "sprites/invader", "sprites/double-weapon-invader", "consts"],
+	function(Utils, Spacecraft, Shield, Invader, DoubleWeaponInvader, consts) {
 	const MAX_LEVEL = 4;
-
-	let utils = SpaceInvadersNamespace.Utils;
 
 	class BaseLevel {
 		constructor(config) {
@@ -42,7 +41,7 @@
 
 		createSpacecraft() {
 			let that = this,
-				spacecraft = new SpaceInvadersNamespace.Spacecraft({ x: that.initialSpacecraftX, y: that.initialSpacecraftY });
+				spacecraft = new Spacecraft({ x: that.initialSpacecraftX, y: that.initialSpacecraftY });
 
 			that.game.addChild(spacecraft);
 			that.game.spacecraft = spacecraft;
@@ -64,7 +63,7 @@
 					let x = formationX + j * that.shieldBlockLength,
 						y = formationY + i * that.shieldBlockLength;
 
-					that.game.addChild( new SpaceInvadersNamespace.Shield({ x, y }) );
+					that.game.addChild( new Shield({ x, y }) );
 				}
 			}
 		}
@@ -87,7 +86,7 @@
 		createInvader(x, y) {
 			let that = this;
 
-			return new SpaceInvadersNamespace.Invader({ x, y, fireInterval: that.fireInterval, lives: that.invaderLives })
+			return new Invader({ x, y, fireInterval: that.fireInterval, lives: that.invaderLives })
 		}
 	}
 
@@ -130,10 +129,10 @@
 		createInvader(x, y) {
 			let that = this;
 
-			let invaderType = Math.round(utils.randomRange(0, 1)),
-				invaderClass = invaderType ? SpaceInvadersNamespace.consts.SpriteType.DoubleWeaponInvader : SpaceInvadersNamespace.consts.SpriteType.Invader;
+			let invaderType = Math.round(Utils.randomRange(0, 1)),
+				invaderClass = invaderType ? consts.SpriteType.DoubleWeaponInvader : consts.SpriteType.Invader;
 
-			return new SpaceInvadersNamespace[invaderClass]({ x, y, fireInterval: that.fireInterval, lives: that.invaderLives });
+			return eval(`new ${invaderClass}({ x, y, fireInterval: that.fireInterval, lives: that.invaderLives })`);
 		}
 	}
 
@@ -155,7 +154,7 @@
 		createInvader(x, y) {
 			let that = this;
 
-			return new SpaceInvadersNamespace.DoubleWeaponInvader({ x, y, fireInterval: that.fireInterval, lives: that.invaderLives })
+			return new DoubleWeaponInvader({ x, y, fireInterval: that.fireInterval, lives: that.invaderLives })
 		}
 	}
 
@@ -165,18 +164,9 @@
 				throw new Error("Invalid level!");
 			}
 
-			return new SpaceInvadersNamespace[`Level${level}`](config);
+			return eval(`new Level${level}(config)`);
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-
-	SpaceInvadersNamespace.BaseLevel = BaseLevel;
-
-	SpaceInvadersNamespace.Level1 = Level1;
-	SpaceInvadersNamespace.Level2 = Level2;
-	SpaceInvadersNamespace.Level3 = Level3;
-	SpaceInvadersNamespace.Level4 = Level4;
-
-	SpaceInvadersNamespace.LevelFactory = LevelFactory;
-})();
+	return LevelFactory;
+});

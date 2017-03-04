@@ -1,5 +1,5 @@
-(function() {
-	class Label  extends SpaceInvadersNamespace.Sprite {
+define(["framework/sprite"], function(Sprite) {
+	class Label extends Sprite {
 		constructor(config) {
 			super(config);
 
@@ -22,6 +22,6 @@
 			ctx.fillText(that.text, that.x, that.y);
 		}
 	}
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.Label = Label;
-})();
+
+	return Label;
+});

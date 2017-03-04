@@ -1,4 +1,4 @@
-(function() {
+define([], function() {
 	let consts = {
 		SpriteType: {
 			Background: "Background",
@@ -12,6 +12,5 @@
 		}
 	};
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.consts = consts;
-})();
+	return consts;
+});

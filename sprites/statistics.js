@@ -1,9 +1,9 @@
-(function() {
+define(["../framework/sprite", "../consts"], function(Sprite, consts) {
 	const
 		LEVEL_OFFSET = 75,
 		SCORES_OFFSET = 150;
 
-	class Statistics extends SpaceInvadersNamespace.Sprite {
+	class Statistics extends Sprite {
 		constructor(config) {
 			config.isNonPlayable = true;
 			super(config);
@@ -15,7 +15,7 @@
 			that.scores = 0;
 
 			that.zIndex = 10;
-			that.__type = SpaceInvadersNamespace.consts.SpriteType.Statistics;
+			that.__type = consts.SpriteType.Statistics;
 		}
 
 		update(lastFrameEllapsedTime, keyboard) {
@@ -40,6 +40,5 @@
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.Statistics = Statistics;
-})();
+	return Statistics;
+});

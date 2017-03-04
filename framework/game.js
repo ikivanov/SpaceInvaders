@@ -1,6 +1,4 @@
-(function() {
-	let utils = SpaceInvadersNamespace.Utils;
-
+define(["framework/utils"], function(Utils) {
 	class Game {
 		constructor(config) {
 			let that = this;
@@ -134,7 +132,7 @@
 						continue;
 					}
 
-					let hasCollision = utils.hasRectangularCollision(sprite.getRect(), sprite2.getRect());
+					let hasCollision = Utils.hasRectangularCollision(sprite.getRect(), sprite2.getRect());
 					if (hasCollision) {
 						sprite.onCollidedWith(sprite2);
 						sprite2.onCollidedWith(sprite);
@@ -274,6 +272,5 @@
 		}
 	}
 
-	window.SpaceInvadersNamespace = window.SpaceInvadersNamespace || {};
-	SpaceInvadersNamespace.Game = Game;
-})();
+	return Game;
+});
