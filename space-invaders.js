@@ -33,14 +33,14 @@ define(["framework/game", "sprites/splash-screen", "framework/label", "sprites/b
 		loadSprites() {
 			let that = this;
 
-			that.lastEnemyMissileLaunchTime = new Date();
+			that.lastEnemyMissileLaunchTime = Date.now();
 
 			that.addChild(new Background());
 			that.addChild(new Statistics({ x: 25, y: 25 }));
 			that.addChild(new FPSCounter({ x: 545, y: 25 }));
 
 			that.level = 1;
-			that.levelDescriptorCreated = new Date();
+			that.levelDescriptorCreated = Date.now();
 			that.levelDescriptor = new Label({ text: `Level ${that.level} is loading... Get ready!`, x: 175, y: 300, color: "red", size: 22 });
 			that.addChild(that.levelDescriptor);
 		}
@@ -85,11 +85,11 @@ define(["framework/game", "sprites/splash-screen", "framework/label", "sprites/b
 
 		onAfterUpdate() {
 			let that = this,
-				now = new Date();
+				now = Date.now();
 
 			that._removeCompletedExplosions();
 
-			if (that.levelDescriptor && now.getTime() - that.levelDescriptorCreated.getTime() > 1000) {
+			if (that.levelDescriptor && now - that.levelDescriptorCreated > 1000) {
 				that.removeChild(that.levelDescriptor);
 				that.levelDescriptor = null;
 
@@ -100,7 +100,14 @@ define(["framework/game", "sprites/splash-screen", "framework/label", "sprites/b
 				return;
 			}
 
-			if (now.getTime() - that.lastEnemyMissileLaunchTime.getTime() > that.currentLevel.invaderFireInterval) {
+			that.attackSpacecraft();
+		}
+
+		attackSpacecraft() {
+			let that = this,
+				now = Date.now();
+
+			if (now - that.lastEnemyMissileLaunchTime > that.currentLevel.invaderFireInterval) {
 				let x = that.spacecraft.x,
 					invadersInSpacecraftRange = that.sprites.filter(sprite =>
 																			(sprite.__type === consts.SpriteType.Invader ||
@@ -121,7 +128,7 @@ define(["framework/game", "sprites/splash-screen", "framework/label", "sprites/b
 						that.addChild(new Missile({ velocityY: INVADER_MISSILE_VELOCITY, x : attackingInvader.x + INVADER_WIDTH - 3, y: attackingInvader.y + INVADER_HEIGHT }));
 					}
 
-					that.lastEnemyMissileLaunchTime = new Date();
+					that.lastEnemyMissileLaunchTime = Date.now();
 				}
 			}
 		}
@@ -138,7 +145,7 @@ define(["framework/game", "sprites/splash-screen", "framework/label", "sprites/b
 			that.cleanUpLevel();
 			that.level++;
 
-			that.levelDescriptorCreated = new Date();
+			that.levelDescriptorCreated = Date.now();
 			that.levelDescriptor = new Label({ text: `Level ${that.level} is loading... Get ready!`, x: 175, y: 300, color: "red", size: 22 });
 			that.addChild(that.levelDescriptor);
 		}

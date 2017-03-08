@@ -22,7 +22,6 @@ define(["../framework/sprite", "../consts", "../sprites/explosion"], function(Sp
 			that.velocityX = -SPEED_X;
 			that.velocityY = 0;
 			that.fireInterval = config.fireInterval !== undefined ? config.fireInterval : FIRE_INTERVAL;
-			that.lastFireTime = new Date();
 			that.scoreBonus = 10;
 			that.lives = config.lives !== undefined ? config.lives : 1;
 

@@ -20,7 +20,7 @@ define(["../framework/sprite", "../consts", "../sprites/explosion"], function(Sp
 
 			let that = this;
 
-			that.lastFireTime = new Date();
+			that.lastFireTime = Date.now();
 			that.lives = LIVES;
 
 			that.zIndex = 20;
@@ -76,9 +76,9 @@ define(["../framework/sprite", "../consts", "../sprites/explosion"], function(Sp
 
 		_canFire() {
 			let that = this,
-				now = new Date();
+				now = Date.now();
 
-			if (now.getTime() - that.lastFireTime.getTime() > FIRE_INTERVAL) {
+			if (now - that.lastFireTime > FIRE_INTERVAL) {
 				that.lastFireTime = now;
 				return true;
 			}
