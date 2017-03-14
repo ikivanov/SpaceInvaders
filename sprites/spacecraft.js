@@ -70,6 +70,8 @@ define(["../framework/sprite", "../consts", "../sprites/explosion"], function(Sp
 					that.game.removeSpacecraft(that);
 
 					that.game.addChild(new Explosion({ x: that.x, y: that.y }));
+				} else {
+					that.game.runPlayerDamageEffect();
 				}
 			}
 		}

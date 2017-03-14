@@ -1,7 +1,6 @@
-define(["framework/game", "sprites/splash-screen", "framework/label", "sprites/background", "sprites/statistics", "framework/fps-counter", "levels", "sprites/missile", "consts"],
-	function(Game, SplashScreen, Label, Background, Statistics, FPSCounter, LevelFactory, Missile, consts) {
+define(["framework/game", "sprites/splash-screen", "framework/label", "sprites/background", "sprites/statistics", "framework/fps-counter", "levels", "sprites/missile", "sprites/player-damage-effect", "consts"],
+	function(Game, SplashScreen, Label, Background, Statistics, FPSCounter, LevelFactory, Missile, PlayerDamageEffect, consts) {
 	const
-		SPACECRAFT_POSITION = { x: 275, y: 540 },
 		SPACECRAFT_MISSILE_VELOCITY = -600,
 		HEIGHT = 600,
 		INVADER_FORMATION_TOP_OFFSET = 50,
@@ -13,7 +12,6 @@ define(["framework/game", "sprites/splash-screen", "framework/label", "sprites/b
 		SHIELD_BLOCK_LENGTH = 12,
 		INVADER_WIDTH = 50,
 		INVADER_HEIGHT = 55,
-		INVADER_FIRE_INTERVAL = 1000,
 		INVADER_MISSILE_VELOCITY = 300,
 		MAX_LEVEL = 4;
 
@@ -166,6 +164,18 @@ define(["framework/game", "sprites/splash-screen", "framework/label", "sprites/b
 			let that = this;
 
 			that.gameOver();
+		}
+
+		runPlayerDamageEffect() {
+			let that = this;
+
+			that.addChild(new PlayerDamageEffect());
+		}
+
+		onPlayerDamageEffectDone(effect) {
+			let that = this;
+
+			that.removeChild(effect);
 		}
 
 		isLevelCompleted() {

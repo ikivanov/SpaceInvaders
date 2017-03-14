@@ -2,7 +2,6 @@ define(["../framework/sprite", "../consts", "../sprites/explosion"], function(Sp
 	const IMAGE_FILENAME = "images/invader.png",
 		WIDTH = 50,
 		HEIGHT = 55,
-		FIRE_INTERVAL = 250,
 		OFFSET_X = 50,
 		SPEED_X = 60,
 		SPEED_Y = 150;
@@ -21,7 +20,6 @@ define(["../framework/sprite", "../consts", "../sprites/explosion"], function(Sp
 			that.initialX = that.x;
 			that.velocityX = -SPEED_X;
 			that.velocityY = 0;
-			that.fireInterval = config.fireInterval !== undefined ? config.fireInterval : FIRE_INTERVAL;
 			that.scoreBonus = 10;
 			that.lives = config.lives !== undefined ? config.lives : 1;
 
